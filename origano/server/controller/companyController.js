@@ -1,3 +1,4 @@
+const bcrypt = require('bcryptjs');
 var Admin = require('../model/admin');
 
 //create admin
@@ -9,12 +10,13 @@ exports.createAdmin = async(req, res) => {
     } else {
         //new admin
         try {
-            Admin.findOne({ phoneNumber: phoneNumber }).then(async(savedAdmin) => {
-                if (savedAdmin) {
+            Admin.findOne({ phoneNumber: phoneNumber}).then(async (savedAdmin) => {
+                if(savedAdmin)
+                {
                     res.status(409).json({ error: "Admin already exists" });
-                } else {
+                }else{
                     // hashing password 
-                    bcrypt.hash(password, 12).then(async(hashedPassword) => {
+                    bcrypt.hash(password, 12).then(async (hashedPassword) => {
                         try {
                             const admin = new Admin({
                                 ownerName: name,
@@ -29,8 +31,8 @@ exports.createAdmin = async(req, res) => {
                             } catch (err) {
                                 res.status(500).json({ error: "Unable to create Admin" });
                             }
-                        } catch (err) {
-                            res.status(400).json({ error: err.message });
+                        }catch(err) {
+                            res.status(400).json({ error:err.message });
                         }
                     });
                 }
@@ -38,5 +40,141 @@ exports.createAdmin = async(req, res) => {
         } catch (err) {
             res.status(500).json({ error: "Unable to create user" });
         }
+    }
+}
+
+//create company
+exports.createCompany = async(req, res) => {
+    const { 
+        companyName,
+        ownerName,
+        email,
+        phoneNumber,
+        tradeLicense,
+        typeOfCompany,
+        panCardNumber,
+        panCardImage,
+        agreementCopy,
+        businessLocation,
+        businessAddress,
+        noOfEmployees,
+        gstNumber,
+        accountNumber,
+        ifscCode,
+        typeOfService,
+        dateOfEstablishment 
+    } = req.body;
+
+    if (!companyName || !ownerName || !email || !phoneNumber || !tradeLicense || !typeOfCompany || !panCardNumber || !panCardImage || !agreementCopy || !businessLocation || !businessAddress || !noOfEmployees || !accountNumber || !ifscCode || !typeOfService || !dateOfEstablishment) {
+        res.status(422).json({ error: "Please add all the fileds" });
+    }else{
+        //new company
+        try {
+            Admin.findOne({ phoneNumber: phoneNumber}).then(async (savedAdmin) => {
+                if(savedAdmin)
+                {
+                    res.status(409).json({ error: "Admin already exists" });
+                }else{
+                    // hashing password 
+                    bcrypt.hash(phoneNumber, 12).then(async (hashedPassword) => {
+                        try {
+                            const company = new Admin({
+                                companyName,
+                                ownerName,
+                                email,
+                                phoneNumber,
+                                tradeLicense,
+                                typeOfCompany,
+                                panCardNumber,
+                                panCardImage,
+                                agreementCopy,
+                                businessLocation,
+                                businessAddress,
+                                noOfEmployees,
+                                gstNumber,
+                                accountNumber,
+                                ifscCode,
+                                typeOfService,
+                                dateOfEstablishment,
+                                password: hashedPassword,
+                                role: "company"
+                            })
+                            try {
+                                await company.save();
+                                res.status(201).json({ success: "Company created successfully" });
+                            } catch (err) {
+                                res.status(500).json({ error: "Unable to create Company" });
+                            }
+                        }catch(err) {
+                            res.status(400).json({ error:err.message });
+                        }
+                    });
+                }
+            })
+        } catch (err) {
+            res.status(500).json({ error: "Unable to create user" });
+        }
+    }
+}
+
+// Admin Login
+exports.adminLogin = async(req, res) => {
+    const { phoneNumber, password } = req.body;
+
+    if (!phoneNumber || !password) {
+        res.status(400).json({ message: "Content can not be empty!" });
+    } else {
+        //new admin
+        try {
+            Admin.findOne({ phoneNumber: phoneNumber}).then(async (savedAdmin) => {
+                if(savedAdmin)
+                {
+                    // password validation 
+                    bcrypt
+                    .compare(password, savedAdmin.password)
+                    .then((doMatch) => {
+                        if (doMatch) {
+                            res.status(200).json( savedAdmin );
+                        } else {
+                            res.status(422).json({ error: "Invalid Password" });
+                        }
+                    })
+                    .catch((err) => {
+                        res.status(422).json({ error: "Unable to Process" });
+                    });
+                }else{
+                    res.status(404).json({ error: "Invalid User" });
+                }
+            })
+        } catch (err) {
+            res.status(500).json({ error: "Unable to login admin" });
+        }
+    }
+}
+
+// Get all company
+exports.getAllCompanies = async(req, res) => {
+    try {
+        Admin.find({ role: "company" }).then(async (savedAdmin) => {
+            if(savedAdmin)
+            {
+                res.status(200).json(savedAdmin);
+            }else{
+                res.status(404).json({ error: "No Records Found" });
+            }
+        })
+    } catch (err) {
+        res.status(500).json({ error: "Unable to get companies" });
+    }
+}
+
+// Delete single company
+exports.deleteCompany = async(req, res) => {
+    try {
+        const { id } = req.params;
+        await Admin.findByIdAndRemove(id);
+        res.status(200).json({ success: "Deleted successfully" });
+    } catch (err) {
+        res.status(500).json({ error: "Unable to get companies" });
     }
 }

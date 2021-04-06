@@ -1,7 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
-const bodyparser = require("body-parser");
+const bodyParser = require("body-parser");
+const cors = require('cors');
 const path = require("path");
 
 
@@ -9,9 +10,13 @@ const connectDB = require('./server/database/connection');
 
 const app = express();
 
-
 dotenv.config({ path: 'config.env' })
 const port = process.env.PORT || 8000;
+
+app.use(bodyParser.json({ limit: "50mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json());
+app.use(cors());
 
 //log requests
 
@@ -20,10 +25,6 @@ app.use(morgan('tiny'));
 //mongoDB connection
 
 connectDB();
-
-//parse request to body-parser
-
-app.use(bodyparser.urlencoded({ extended: true }))
 
 //set view engine
 
@@ -39,7 +40,8 @@ app.use("/js", express.static(path.resolve(__dirname, "assets/js")))
 
 //load routers
 
-app.use('/', require('./server/routes/router'))
+app.use('/', require('./server/routes/router'));
+app.use('/api/company', require('./server/routes/companyRoute'));
 
 
 
