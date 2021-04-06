@@ -1,0 +1,90 @@
+<!-- //include header -->
+
+<%-include('include/_header')%>
+    <!-- //include header -->
+
+    <div class="card-body">
+        <div class="form-group">
+            <div class="filter">
+                <a href="/provider">
+                    <i class="fas fa-angle-double-left"></i>All Providers</a>
+            </div>
+            <br>
+            <div class="form-title text-center">
+                <h2 class="text-dark">Update Provider</h2>
+                <span class="text-dark">Use the below form to update an account provider</span>
+            </div>
+
+        </div>
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-8">
+                            <!-- /.card-header -->
+                            <!-- form start -->
+
+                            <form method="POST" action="/api/providers/update/<%=provider._id%>" id="update_provider ">
+                                <div class="card-body ">
+                                    <div class="form-group ">
+                                        <div class="filter ">
+                                            <a href="/provider ">
+                                                <i class="fas fa-angle-double-left "></i>All Providers</a>
+                                        </div>
+                                        <br>
+
+                                        <label for="Email ">Email address</label>
+                                        <input type="email " name="email" value="<%=provider.email%>" class="form-control" id="exampleInputEmail1" placeholder=" example@gmail.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name" value="<%=provider.name%>" class="form-control" id="exampleInputPassword1" placeholder="Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="date">Joined On</label>
+                                        <input type="text" name="date" value="<%=provider.date%>" class="form-control" id="date" placeholder="date">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mobile">Mobile On</label>
+                                        <input type="number" name="mobile" value="<%=provider.mobile%>" class="form-control" id="mobile" placeholder="mobile no.">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rating">Ratings</label>
+                                        <input type="number" name="rating" value="<%=provider.rating%>" class="form-control" id="rating" placeholder="rating">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="wallet">Wallet amount</label>
+                                        <input type="number" name="wallet" value="<%=provider.wallet%>" class="form-control" id="wallet" placeholder="date">
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="gender">Status</label>
+                                        <div class="radio inline">
+                                            <input type="radio" name="status" value="Active" id="radio-4">
+                                            <label for="radio-4">Active</label>
+                                        </div>
+                                        <div class="radio inline">
+                                            <input type="radio" name="status" value="Inactive" id="radio-5">
+                                            <label for="radio-5">Inactive</label>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer ">
+                                    <button type="submit " id="submit" class=" btn btn-primary ">Submit</button>
+                                </div>
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

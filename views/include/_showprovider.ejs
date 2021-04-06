@@ -1,0 +1,41 @@
+<%for(var i=0; i < provider.length;i++){%>
+
+
+
+    <tr>
+        <td>
+            <%=i+1%>
+        </td>
+        <td>
+            <%=provider[i].date%>
+        </td>
+        <td>
+            <%=provider[i].name%>
+        </td>
+        <td>
+            <%=provider[i].email%>
+        </td>
+        <td>
+            <%=provider[i].mobile%>
+        </td>
+        <td>
+            <%=provider[i].rating%>
+        </td>
+        <td>
+            <%=provider[i].wallet%>
+        </td>
+
+        <td>
+            <%=provider[i].status%>
+        </td>
+        <td>
+            <a href="/update_provider?id=<%=provider[i]._id%>" class="btn border-shadow update">
+                <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>
+            </a>
+            <a class="btn border-shadow remove " data-id="<%=provider[i]._id%>">
+                <span class=" text-gradient "><i class="fas fa-times "></i></span>
+            </a>
+        </td>
+    </tr>
+
+    <%}%>
