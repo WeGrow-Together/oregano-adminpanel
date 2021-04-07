@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
 var Admin = require('../model/admin');
 
 //create admin
@@ -168,12 +169,90 @@ exports.getAllCompanies = async(req, res) => {
     }
 }
 
+// Get single company
+exports.getCompany = async (req, res) => { 
+    const { id } = req.params;
+    try {
+        Admin.findById(id).then(company => {
+            if(!company)
+            {
+                res.status(404).json({ error: "Invalid Company" });
+            }else{
+                res.status(200).json(company);
+            }
+        });
+    } catch (error) {
+        res.status(404).json({ error: "Unable to get company" });
+    }
+}
+
+// Update company
+exports.updateCompany = async (req, res) => {
+    const { 
+        companyName,
+        ownerName,
+        email,
+        phoneNumber,
+        tradeLicense,
+        typeOfCompany,
+        panCardNumber,
+        panCardImage,
+        agreementCopy,
+        businessLocation,
+        businessAddress,
+        noOfEmployees,
+        gstNumber,
+        accountNumber,
+        ifscCode,
+        typeOfService,
+        dateOfEstablishment 
+    } = req.body; 
+    const { id } = req.params;
+
+    if (!companyName || !ownerName || !email || !phoneNumber || !tradeLicense || !typeOfCompany || !panCardNumber || !panCardImage || !agreementCopy || !businessLocation || !businessAddress || !noOfEmployees || !accountNumber || !ifscCode || !typeOfService || !dateOfEstablishment) {
+        res.status(422).json({ error: "Please add all the fileds" });
+    }else{
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+        try {
+            Admin.findByIdAndUpdate(id,{
+                companyName,
+                ownerName,
+                email,
+                phoneNumber,
+                tradeLicense,
+                typeOfCompany,
+                panCardNumber,
+                panCardImage,
+                agreementCopy,
+                businessLocation,
+                businessAddress,
+                noOfEmployees,
+                gstNumber,
+                accountNumber,
+                ifscCode,
+                typeOfService,
+                dateOfEstablishment
+            },(err, docs) => {
+                if (err){ 
+                    res.status(404).json({ error: "Unexpected error! Try again later." });
+                } 
+                else{ 
+                    res.status(200).json({ success: "Successfully updated company" });
+                }
+            });
+        } catch (error) {
+            res.status(404).json({ error: "Unable to get company" });
+        }
+    }
+}
+
 // Delete single company
 exports.deleteCompany = async(req, res) => {
     try {
         const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
         await Admin.findByIdAndRemove(id);
-        res.status(200).json({ success: "Deleted successfully" });
+        res.status(200).json({ success: "Company Deleted successfully" });
     } catch (err) {
         res.status(500).json({ error: "Unable to get companies" });
     }
