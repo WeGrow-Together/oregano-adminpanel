@@ -2,7 +2,6 @@ const express = require("express");
 const route = express.Router()
 const multer = require("multer");
 const services = require('../services/render')
-const businessrender = require('../services/businessrender')
 
 const userController = require('../controller/userController')
 const providerController = require('../controller/providerController')
@@ -41,9 +40,9 @@ route.post('/api/providers/update/:id', providerController.update); //this is a 
 route.delete('/api/providers/delete/:id', providerController.delete);
 
 //business view
-route.get('/business', businessrender.businessRoutes);
-route.get('/addbusiness', businessrender.addbusiness);
-route.get('/updatebusiness', businessrender.updatebusiness);
+// route.get('/business', businessrender.businessRoutes);
+// route.get('/addbusiness', businessrender.addbusiness);
+// route.get('/updatebusiness', businessrender.updatebusiness);
 
 
 

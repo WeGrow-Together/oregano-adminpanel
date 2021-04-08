@@ -11,13 +11,12 @@ exports.createAdmin = async(req, res) => {
     } else {
         //new admin
         try {
-            Admin.findOne({ phoneNumber: phoneNumber}).then(async (savedAdmin) => {
-                if(savedAdmin)
-                {
+            Admin.findOne({ phoneNumber: phoneNumber }).then(async(savedAdmin) => {
+                if (savedAdmin) {
                     res.status(409).json({ error: "Admin already exists" });
-                }else{
+                } else {
                     // hashing password 
-                    bcrypt.hash(password, 12).then(async (hashedPassword) => {
+                    bcrypt.hash(password, 12).then(async(hashedPassword) => {
                         try {
                             const admin = new Admin({
                                 ownerName: name,
@@ -32,8 +31,8 @@ exports.createAdmin = async(req, res) => {
                             } catch (err) {
                                 res.status(500).json({ error: "Unable to create Admin" });
                             }
-                        }catch(err) {
-                            res.status(400).json({ error:err.message });
+                        } catch (err) {
+                            res.status(400).json({ error: err.message });
                         }
                     });
                 }
@@ -46,7 +45,7 @@ exports.createAdmin = async(req, res) => {
 
 //create company
 exports.createCompany = async(req, res) => {
-    const { 
+    const {
         companyName,
         ownerName,
         email,
@@ -63,21 +62,20 @@ exports.createCompany = async(req, res) => {
         accountNumber,
         ifscCode,
         typeOfService,
-        dateOfEstablishment 
+        dateOfEstablishment
     } = req.body;
 
     if (!companyName || !ownerName || !email || !phoneNumber || !tradeLicense || !typeOfCompany || !panCardNumber || !panCardImage || !agreementCopy || !businessLocation || !businessAddress || !noOfEmployees || !accountNumber || !ifscCode || !typeOfService || !dateOfEstablishment) {
         res.status(422).json({ error: "Please add all the fileds" });
-    }else{
+    } else {
         //new company
         try {
-            Admin.findOne({ phoneNumber: phoneNumber}).then(async (savedAdmin) => {
-                if(savedAdmin)
-                {
+            Admin.findOne({ phoneNumber: phoneNumber }).then(async(savedAdmin) => {
+                if (savedAdmin) {
                     res.status(409).json({ error: "Admin already exists" });
-                }else{
+                } else {
                     // hashing password 
-                    bcrypt.hash(phoneNumber, 12).then(async (hashedPassword) => {
+                    bcrypt.hash(phoneNumber, 12).then(async(hashedPassword) => {
                         try {
                             const company = new Admin({
                                 companyName,
@@ -106,8 +104,8 @@ exports.createCompany = async(req, res) => {
                             } catch (err) {
                                 res.status(500).json({ error: "Unable to create Company" });
                             }
-                        }catch(err) {
-                            res.status(400).json({ error:err.message });
+                        } catch (err) {
+                            res.status(400).json({ error: err.message });
                         }
                     });
                 }
@@ -127,23 +125,22 @@ exports.adminLogin = async(req, res) => {
     } else {
         //new admin
         try {
-            Admin.findOne({ phoneNumber: phoneNumber}).then(async (savedAdmin) => {
-                if(savedAdmin)
-                {
+            Admin.findOne({ phoneNumber: phoneNumber }).then(async(savedAdmin) => {
+                if (savedAdmin) {
                     // password validation 
                     bcrypt
-                    .compare(password, savedAdmin.password)
-                    .then((doMatch) => {
-                        if (doMatch) {
-                            res.status(200).json( savedAdmin );
-                        } else {
-                            res.status(422).json({ error: "Invalid Password" });
-                        }
-                    })
-                    .catch((err) => {
-                        res.status(422).json({ error: "Unable to Process" });
-                    });
-                }else{
+                        .compare(password, savedAdmin.password)
+                        .then((doMatch) => {
+                            if (doMatch) {
+                                res.status(200).json(savedAdmin);
+                            } else {
+                                res.status(422).json({ error: "Invalid Password" });
+                            }
+                        })
+                        .catch((err) => {
+                            res.status(422).json({ error: "Unable to Process" });
+                        });
+                } else {
                     res.status(404).json({ error: "Invalid User" });
                 }
             })
@@ -156,11 +153,10 @@ exports.adminLogin = async(req, res) => {
 // Get all company
 exports.getAllCompanies = async(req, res) => {
     try {
-        Admin.find({ role: "company" }).then(async (savedAdmin) => {
-            if(savedAdmin)
-            {
+        Admin.find({ role: "company" }).then(async(savedAdmin) => {
+            if (savedAdmin) {
                 res.status(200).json(savedAdmin);
-            }else{
+            } else {
                 res.status(404).json({ error: "No Records Found" });
             }
         })
@@ -170,14 +166,13 @@ exports.getAllCompanies = async(req, res) => {
 }
 
 // Get single company
-exports.getCompany = async (req, res) => { 
+exports.getCompany = async(req, res) => {
     const { id } = req.params;
     try {
         Admin.findById(id).then(company => {
-            if(!company)
-            {
+            if (!company) {
                 res.status(404).json({ error: "Invalid Company" });
-            }else{
+            } else {
                 res.status(200).json(company);
             }
         });
@@ -187,8 +182,8 @@ exports.getCompany = async (req, res) => {
 }
 
 // Update company
-exports.updateCompany = async (req, res) => {
-    const { 
+exports.updateCompany = async(req, res) => {
+    const {
         companyName,
         ownerName,
         email,
@@ -205,16 +200,16 @@ exports.updateCompany = async (req, res) => {
         accountNumber,
         ifscCode,
         typeOfService,
-        dateOfEstablishment 
-    } = req.body; 
+        dateOfEstablishment
+    } = req.body;
     const { id } = req.params;
 
     if (!companyName || !ownerName || !email || !phoneNumber || !tradeLicense || !typeOfCompany || !panCardNumber || !panCardImage || !agreementCopy || !businessLocation || !businessAddress || !noOfEmployees || !accountNumber || !ifscCode || !typeOfService || !dateOfEstablishment) {
         res.status(422).json({ error: "Please add all the fileds" });
-    }else{
+    } else {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
         try {
-            Admin.findByIdAndUpdate(id,{
+            Admin.findByIdAndUpdate(id, {
                 companyName,
                 ownerName,
                 email,
@@ -232,11 +227,10 @@ exports.updateCompany = async (req, res) => {
                 ifscCode,
                 typeOfService,
                 dateOfEstablishment
-            },(err, docs) => {
-                if (err){ 
+            }, (err, docs) => {
+                if (err) {
                     res.status(404).json({ error: "Unexpected error! Try again later." });
-                } 
-                else{ 
+                } else {
                     res.status(200).json({ success: "Successfully updated company" });
                 }
             });

@@ -61,5 +61,3 @@ exports.update_provider = (req, res) => {
             res.send(err);
         })
 }
-
-//business part
