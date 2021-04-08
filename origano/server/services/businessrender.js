@@ -4,8 +4,8 @@ const axios = require("axios");
 exports.businessRoutes = (req, res) => {
 
     // res.render('business');
-    axios.get('http://localhost:3000/create')
-        .then(function(response) {
+    axios.get('http://localhost:3000/api/company/all-companies')
+        .then((response) => {
             // console.log(response)
             res.render('business', {
                 business: response.data

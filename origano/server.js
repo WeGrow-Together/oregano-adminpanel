@@ -35,15 +35,12 @@ app.set('view engine', 'ejs');
 app.use("/css", express.static(path.resolve(__dirname, "assets/css")))
 app.use("/img", express.static(path.resolve(__dirname, "assets/img")))
 app.use("/js", express.static(path.resolve(__dirname, "assets/js")))
-    // app.use("/plugins", express.static(path.resolve(__dirname, "assets/plugins")))
+// app.use("/plugins", express.static(path.resolve(__dirname, "assets/plugins")))
 
 
 //load routers
-
 app.use('/', require('./server/routes/router'));
 app.use('/api/company', require('./server/routes/companyRoute'));
-
-
 
 app.listen(port, () => {
     console.log(`listening to the port no ${port}`);
