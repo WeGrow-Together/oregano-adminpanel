@@ -47,7 +47,4 @@ route.get('/updatebusiness', businessServices.updatebusiness);
 
 
 
-
-
-
 module.exports = route

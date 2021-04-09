@@ -21,5 +21,13 @@ exports.addbusiness = (req, res) => {
 }
 
 exports.updatebusiness = (req, res) => {
-    res.render('updatebusiness');
+    //res.render('updatebusiness');
+    axios.get('http://localhost:3000/company/update', { params: { id: req.query.id } })
+        .then(function(businessdata) {
+            res.render("updatebusiness", { business: businessdata.data })
+        })
+
+    .catch(err => {
+        res.send(err);
+    })
 }
