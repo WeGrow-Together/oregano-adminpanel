@@ -10,7 +10,7 @@ const connectDB = require('./server/database/connection');
 
 const app = express();
 
-dotenv.config({ path: 'config.env' })
+dotenv.config()
 const port = process.env.PORT || 8000;
 
 app.use(bodyParser.json({ limit: "50mb", extended: true }));
