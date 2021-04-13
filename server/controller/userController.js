@@ -108,3 +108,25 @@ exports.delete = async(req, res) => {
         res.status.json({ error: "Unable to delete user" });
     }
 }
+
+//Phone Number login verification
+exports.login = async(req, res) => {
+    const { phoneNumber } = req.body;
+
+    if (!phoneNumber) {
+        res.status(400).json({ error: "Please provide phone number" });
+    } else {
+        try {
+            Userdb.findOne({ mobile: phoneNumber}).then((savedUser) => {
+                if(!savedUser)
+                {
+                    res.status(409).json({ error: "User does not exist" });
+                }else{
+                    res.status(200).json(savedUser);
+                }
+            })
+        } catch (err) {
+            res.status(500).json({ error: "Unable to create user" });
+        }
+    }
+}
