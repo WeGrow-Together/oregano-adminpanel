@@ -3,13 +3,13 @@ const route = express.Router()
 const multer = require("multer");
 const services = require('../services/render')
 const businessServices = require('../services/businessrender')
+const foodServices = require('../services/foodrender')
 
 const userController = require('../controller/userController')
 const providerController = require('../controller/providerController')
 
 // @description Root Route
 //@Method GET/
-
 route.get("/", services.homeRoutes);
 
 // @description add user
@@ -45,6 +45,9 @@ route.get('/business', businessServices.businessRoutes);
 route.get('/addbusiness', businessServices.addbusiness);
 route.get('/updatebusiness', businessServices.updatebusiness);
 
-
+// foods view
+route.get('/foodsection', foodServices.listFoods);
+route.get('/addFoodSection', foodServices.addFoods);
+route.get('/updateFoodSection', foodServices.updateFoods);
 
 module.exports = route

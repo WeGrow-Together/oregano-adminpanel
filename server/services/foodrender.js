@@ -3,7 +3,7 @@ const axios = require("axios");
 
 
 exports.listFoods = (req, res) => {
-    axios.get('http://localhost:3000/api/foods/create')
+    axios.get('http://localhost:3000/api/foods/all')
         .then((response) => {
             // console.log(response)
             res.render('foodsection', {
@@ -18,7 +18,7 @@ exports.addFoods = (req, res) => {
     res.render('addFoodSection');
 }
 exports.updateFoods = (req, res) => {
-    axios.get('http://localhost:3000/api/foods/single/' + req.query.id)
+    axios.get('http://localhost:3000/api/foods/single/'+req.query.id)
         .then(function(foodData) {
             res.render("updateFoodSection", { food: foodData.data })
         })
