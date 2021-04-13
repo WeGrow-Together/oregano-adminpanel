@@ -23,7 +23,7 @@ route.get("/add_user", services.add_user);
 route.get("/update_user", services.update_user);
 
 //api for users
-
+route.post('/api/users/login', userController.login);
 route.post('/api/users/create', userController.create);
 route.get('/api/users', userController.find);
 route.post('/api/users/update/:id', userController.update); //this is a url parameter,we created a variable in a url
