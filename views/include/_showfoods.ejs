@@ -1,0 +1,37 @@
+<%for(var i=0; i < food.length;i++){%>
+
+
+
+    <tr>
+        <td>
+            <%=i+1%>
+        </td>
+        <td>
+            <%=food[i].name%>
+        </td>
+        <td>
+            <%=food[i].cuisine%>
+        </td>
+        <td>
+            <%=food[i].photo%>
+        </td>
+        <td>
+            <%=food[i].quantity%>
+        </td>
+        <td>
+            <%=food[i].description%>
+        </td>
+        <td>
+            <%=food[i].companyId%>
+        </td>
+        <td>
+            <a href="/updateFoodSection?id=<%=food[i]._id%>" class="btn border-shadow update">
+                <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>
+            </a>
+            <a class="btn border-shadow delete " data-id="<%=food[i]._id%>">
+                <span class=" text-gradient "><i class="fas fa-times "></i></span>
+            </a>
+        </td>
+    </tr>
+
+    <%}%>

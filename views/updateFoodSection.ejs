@@ -1,0 +1,89 @@
+<!-- //include header -->
+
+<%-include('include/_header')%>
+    <!-- //include header -->
+
+    <div class="card-body">
+        <div class="form-group">
+            <div class="filter">
+                <a href="/foodsection">
+                    <i class="fas fa-angle-double-left"></i>All Foodcategories</a>
+            </div>
+            <br>
+            <div class="form-title text-center">
+                <h2 class="text-dark">Update FoodCategories</h2>
+                <span class="text-dark">Use the below form to update Food Categories</span>
+            </div>
+
+        </div>
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-8">
+                            <!-- /.card-header -->
+                            <!-- form start -->
+
+                            <form action="/api/foods/update/<%=food._id%>" method="POST" id="updateFoodCategory" enctype="multipart/form-data">
+                                <div class="card-body ">
+                                    <div class="form-group">
+                                        <div class="filter ">
+                                            <a href="/foodsection">
+                                                <i class="fas fa-angle-double-left "></i>All FoodCategies</a>
+                                        </div>
+                                        <br>
+
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name ">Food's Name</label>
+                                        <input type="text " name="name" value="" class="form-control " id="name" placeholder="Food's Name ">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="cuisine ">Type of Cuisine</label>
+                                        <select name="cuisine" id="cuisine">
+                                            <option value="it">IT</option>
+                                            <option value="marketing">Marketing</option>
+                                            <option value="business">Business</option>
+                                            
+                                          </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price ">Price</label>
+                                        <input type="number" name="price" value="" class="form-control " id="price" placeholder="Price for thiis food">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="photo ">Food Images</label>
+                                        <input type="file" name="photo" value="" class="form-control ">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="quantity ">Quantity</label>
+                                        <input type="text " name="quantity" value="" class="form-control " id="quantity" placeholder="Business location">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description ">Description</label>
+                                        <input type="text " name="description" value="" class="form-control " id="description" placeholder="Business Address">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="companyId ">companyId</label>
+                                        <input type="text " name="companyId" value="" class="form-control " id="companyId" placeholder="Business Address">
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+
+                                <div class="card-footer ">
+                                    <button type="submit " id="submit" class=" btn btn-primary ">Submit</button>
+                                </div>
+
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
