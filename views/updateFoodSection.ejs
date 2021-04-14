@@ -6,7 +6,7 @@
     <div class="card-body">
         <div class="form-group">
             <div class="filter">
-                <a href="/foodsection">
+                <a href="#" id="food">
                     <i class="fas fa-angle-double-left"></i>All Foodcategories</a>
             </div>
             <br>
@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="cuisine ">Type of Cuisine</label>
-                                        <select name="cuisine" id="cuisine">
+                                        <select name="cuisine" id="cuisine" value="<%=food.cuisine%>">
                                             <option value="indian">Indian</option>
                                             <option value="chinese">Chinese</option>
                                             <option value="italian">Italian</option>
@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="category">Food Category</label>
-                                        <select name="category" id="category">
+                                        <select name="category" id="category" value="<%=food.category%>">
                                             <option value="main">Main course</option>
                                             <option value="starter">Starter</option>
                                             <option value="desert">Desert</option>
@@ -58,7 +58,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="price ">Price</label>
-                                        <input type="number" name="price" value="" class="form-control " id="price" placeholder="Price for thiis food">
+                                        <input type="number" name="price" value="<%=food.price%>" class="form-control " id="price" placeholder="Price for thiis food">
                                     </div>
                                     <div class="form-group">
                                         <label for="photo ">Food Images</label>
@@ -68,11 +68,11 @@
 
                                     <div class="form-group">
                                         <label for="quantity ">Quantity</label>
-                                        <input type="text " name="quantity" value="" class="form-control " id="quantity" placeholder="Business location">
+                                        <input type="text " name="quantity" value="<%=food.quantity%>" class="form-control " id="quantity" placeholder="Business location">
                                     </div>
                                     <div class="form-group">
                                         <label for="description ">Description</label>
-                                        <input type="text " name="description" value="" class="form-control " id="description" placeholder="Business Address">
+                                        <input type="text " name="description" value="<%=food.description%>" class="form-control " id="description" placeholder="Business Address">
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -90,6 +90,11 @@
     </div>
 
     <script>
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        if (!admin) {
+            window.location.replace("https://origano-admin.herokuapp.com/adminlogin");
+        }
+
         function encodeImageFileURL(uploadedFile, base64Code) {
             fileSelect = document.getElementById(uploadedFile).files;
             if (fileSelect.length > 0) {
@@ -105,6 +110,16 @@
 
         document.getElementById("photoFile").addEventListener("change", function() {
             encodeImageFileURL("photoFile", "photo");
+        });
+
+        document.getElementById("food").addEventListener("click", function() {
+            if (admin) {
+                if (admin.role == "company") {
+                    window.location.replace("https://origano-admin.herokuapp.com/foodsection?id=" + admin._id);
+                } else {
+                    window.location.replace("https://origano-admin.herokuapp.com/foodsection");
+                }
+            }
         });
 
         document.getElementById("updateFoodCategory").addEventListener("submit", function(e) {
@@ -127,13 +142,12 @@
                 if (xhr.status != 200) {
                     alert(JSON.parse(xhr.response).error);
                 } else {
-                    alert(JSON.parse(xhr.response).success);
+                    if (admin.role == "company") {
+                        window.location.replace("https://origano-admin.herokuapp.com/foodsection?id=" + admin._id);
+                    } else {
+                        window.location.replace("https://origano-admin.herokuapp.com/foodsection");
+                    }
                 }
             };
         });
-
-        const admin = JSON.parse(localStorage.getItem('admin'));
-        if (!admin) {
-            window.location.replace("https://origano-admin.herokuapp.com/adminlogin");
-        }
     </script>
