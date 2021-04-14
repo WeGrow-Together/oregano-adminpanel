@@ -15,33 +15,33 @@
                         <main id="site-main">
                             <div class="container">
                                 <div class="box-nav d-flex justify-between">
-                                    <a href="/add_provider" class="body-shadow">
-                                        <span class="text-gradient">New Provider<i class="fas fa-user"></i></span></a>
+                                    <a href="/addFoodSection" class="body-shadow">
+                                        <span class="text-gradient">New Foods<i class="fas fa-user"></i></span></a>
                                 </div>
                             </div>
                             <br>
 
                             <!-- form handdling -->
-                            <form action="/provider" method="POST">
+                            <form action="/foodsection" method="POST">
                                 <table class="table">
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>ID</th>
                                             <th>Name</th>
-                                            <th>Joined On</th>
-                                            <th>@Email</th>
-                                            <th>Mobile</th>
-                                            <th>Ratings</th>
-                                            <th>wallet Amount</th>
-                                            <th>Status</th>
+                                            <th>Cuisine</th>
+                                            <th>Category</th>
+                                            <th>FoodImages</th>
+                                            <th>Quantity</th>
+                                            <th>Description</th>
                                             <th>Action</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
 
 
-                                        <%-include('include/_showprovider')%>
 
+                                        <%-include('include/_showfoods')%>
 
 
                                     </tbody>
@@ -102,18 +102,12 @@
     <!-- AdminLTE for demo purposes -->
     <script src="js/demo.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
-    <script src="/js/provider.js"></script>
+    <script src="/js/foods.js"></script>
     <script>
-        $(document).ready(function() {
-            const admin = JSON.parse(localStorage.getItem('admin'));
-            if (!admin) {
-                window.location.replace("http://localhost:3000/adminlogin");
-            } else {
-                if (admin.role == "company") {
-                    window.location.replace("http://localhost:3000/orders?id=" + admin._id);
-                }
-            }
-        });
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        if (!admin) {
+            window.location.replace("http://localhost:3000/adminlogin");
+        }
     </script>
     </body>
 

@@ -37,7 +37,7 @@ exports.createOrder = async(req, res) => {
 exports.getCompanyOrders = async(req, res) => {
     const { id } = req.params;
     try {
-        await Order.find({ companyId:id }).then(async(savedOrder) => {
+        await Order.find({ companyId: id }).then(async(savedOrder) => {
             if (savedOrder) {
                 res.status(200).json(savedOrder);
             } else {
@@ -53,7 +53,7 @@ exports.getCompanyOrders = async(req, res) => {
 exports.getProviderOrders = async(req, res) => {
     const { id } = req.params;
     try {
-        await Order.find({ providerId:id }).then(async(savedOrder) => {
+        await Order.find({ providerId: id }).then(async(savedOrder) => {
             if (savedOrder) {
                 res.status(200).json(savedOrder);
             } else {
@@ -69,7 +69,7 @@ exports.getProviderOrders = async(req, res) => {
 exports.getUserOrders = async(req, res) => {
     const { id } = req.params;
     try {
-        await Order.find({ userId:id }).then(async(savedOrder) => {
+        await Order.find({ userId: id }).then(async(savedOrder) => {
             if (savedOrder) {
                 res.status(200).json(savedOrder);
             } else {
@@ -106,9 +106,9 @@ exports.orderStatusProcessing = async(req, res) => {
         res.status(400).json({ error: "Please provide Provider Id" });
     } else {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
-        Order.findOne({ _id: id, providerId: ""}).then(async(savedOrder) => {
+        Order.findOne({ _id: id, providerId: "" }).then(async(savedOrder) => {
             if (savedOrder) {
-                try{
+                try {
                     await Order.findByIdAndUpdate(id, {
                         providerId: providerId,
                         orderStatus: "processing"
@@ -119,7 +119,7 @@ exports.orderStatusProcessing = async(req, res) => {
                             res.status(200).json({ success: "Processing order" });
                         }
                     });
-                }catch(err) {
+                } catch (err) {
                     res.status(500).json({ error: "Unable to get orders" });
                 }
             } else {
@@ -155,11 +155,10 @@ exports.orderSameUser = async(req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No user with id: ${id}` });
-    await Order.find({ userId: id, orderStatus: "ordered"}).then(orders => {
-        if(orders)
-        {
+    await Order.find({ userId: id, orderStatus: "ordered" }).then(orders => {
+        if (orders) {
             res.status(200).json(orders);
-        }else{
+        } else {
             res.status(400).json({ error: "No extra order found" });
         }
     });

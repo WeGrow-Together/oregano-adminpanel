@@ -1,0 +1,70 @@
+<%for(var i=0; i < business.length;i++){%>
+
+
+
+    <tr>
+        <td>
+            <%=i+1%>
+        </td>
+        <td>
+            <%=business[i].companyName%>
+        </td>
+        <td>
+            <%=business[i].ownerName%>
+        </td>
+        <td>
+            <%=business[i].email%>
+        </td>
+        <td>
+            <%=business[i].phoneNumber%>
+        </td>
+        <td>
+            <img src="<%=business[i].tradeLicense%>" height="20" width="20" alt="businessimage" />
+        </td>
+        <td>
+            <img src="<%=business[i].panCardImage%>" height="20" width="20" alt="businessimage" />
+        </td>
+        <td>
+            <img src="<%=business[i].agreementCopy%>" height="20" width="20" alt="business" />
+        </td>
+        <td>
+            <%=business[i].businessLocation%>
+        </td>
+        <td>
+            <%=business[i].businessAddress%>
+        </td>
+        <td>
+            <%=business[i].noOfEmployees%>
+        </td>
+        <td>
+            <%=business[i].gstNumber%>
+        </td>
+        <td>
+            <%=business[i].accountNumber%>
+        </td>
+        <td>
+            <%=business[i].ifscCode%>
+        </td>
+        <td>
+            <%=business[i].typeOfService%>
+        </td>
+        <td>
+            <%=business[i].dateOfEstablishment%>
+        </td>
+        <td>
+            <a href="/updatebusiness?id=<%=business[i]._id%>" class="btn border-shadow update">
+                <span class="text-gradient"><i class="fas fa-pencil-alt"></i></span>
+            </a>
+            <a class="btn border-shadow delete " data-id="<%=business[i]._id%>">
+                <span class=" text-gradient "><i class="fas fa-times "></i></span>
+            </a>
+        </td>
+    </tr>
+
+    <%}%>
+        <script>
+            const admin = JSON.parse(localStorage.getItem('admin'));
+            if (!admin) {
+                window.location.replace("http://localhost:3000/adminlogin");
+            }
+        </script>

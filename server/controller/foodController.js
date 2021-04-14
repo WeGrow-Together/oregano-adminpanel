@@ -4,14 +4,14 @@ var Company = require('../model/admin');
 
 //create food
 exports.createFood = async(req, res) => {
-    const { name, cuisine, price, photo, quantity, description, companyId } = req.body;
+    const { name, cuisine, category, price, photo, quantity, description, companyId } = req.body;
 
-    if (!name || !cuisine || !price || !photo || !quantity || !companyId) {
+    if (!name || !cuisine || !category || !price || !photo || !quantity || !companyId) {
         res.status(400).json({ error: "Please fill all necessary fields" });
     } else {
         //new food
         try {
-            Company.findById(companyId).then(async (savedCompany) => {
+            Company.findById(companyId).then(async(savedCompany) => {
                 if (!savedCompany) {
                     res.status(409).json({ error: "Company doesn't exists" });
                 } else {
@@ -19,6 +19,7 @@ exports.createFood = async(req, res) => {
                         const food = new Food({
                             name: name,
                             cuisine: cuisine.toLowerCase(),
+                            category: category,
                             price: price,
                             photo: photo,
                             quantity: quantity,
@@ -57,7 +58,7 @@ exports.getAllFoods = async(req, res) => {
 exports.getCompanyFoods = async(req, res) => {
     const { id } = req.params;
     try {
-        await Food.find({ companyId:id }).then(async(savedFood) => {
+        await Food.find({ companyId: id }).then(async(savedFood) => {
             if (savedFood) {
                 res.status(200).json(savedFood);
             } else {
@@ -73,7 +74,23 @@ exports.getCompanyFoods = async(req, res) => {
 exports.getCuisineFoods = async(req, res) => {
     const { cuisine } = req.params;
     try {
-        await Food.find({ cuisine:cuisine }).then(async(savedFood) => {
+        await Food.find({ cuisine: cuisine }).then(async(savedFood) => {
+            if (savedFood) {
+                res.status(200).json(savedFood);
+            } else {
+                res.status(404).json({ error: "Company doesn't have food" });
+            }
+        })
+    } catch (err) {
+        res.status(500).json({ error: "Unable to get foods" });
+    }
+}
+
+// Get all foods by category
+exports.getCategoryFoods = async(req, res) => {
+    const { category } = req.params;
+    try {
+        await Food.find({ category: category }).then(async(savedFood) => {
             if (savedFood) {
                 res.status(200).json(savedFood);
             } else {
@@ -104,19 +121,20 @@ exports.getFood = async(req, res) => {
 // Update single food
 exports.updateFood = async(req, res) => {
     const { id } = req.params;
-    const { name, cuisine, price, photo, quantity, description, companyId } = req.body;
+    const { name, cuisine, category, price, photo, quantity, description, companyId } = req.body;
 
-    if (!name || !cuisine || !price || !photo || !quantity || !companyId) {
+    if (!name || !cuisine || !category || !price || !photo || !quantity || !companyId) {
         res.status(400).json({ error: "Please fill all necessary fields" });
     } else {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No food with id: ${id}`);
         await Food.findByIdAndUpdate(id, {
-            name: name, 
+            name: name,
             cuisine: cuisine.toLowerCase(),
-            price: price, 
-            photo: photo, 
-            quantity: quantity, 
-            description: description, 
+            category: category,
+            price: price,
+            photo: photo,
+            quantity: quantity,
+            description: description,
             companyId: companyId
         }, (err, docs) => {
             if (err) {

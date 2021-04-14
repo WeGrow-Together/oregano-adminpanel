@@ -2,9 +2,13 @@ const mongoose = require("mongoose");
 var foodSchema = new mongoose.Schema({
     name: {
         type: String,
-        required:true
+        required: true
     },
     cuisine: {
+        type: String,
+        required: true
+    },
+    category: {
         type: String,
         required: true
     },

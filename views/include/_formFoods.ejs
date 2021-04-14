@@ -1,0 +1,113 @@
+<form action="" method="" id="addFood">
+    <div class="card-body">
+        <div class="form-group">
+            <div class="filter">
+                <a href="/foodsection">
+                    <i class="fas fa-angle-double-left"></i>All Foodcategories</a>
+            </div>
+            <br>
+            <div class="form-title text-center">
+                <h2 class="text-dark">New FoodCategory</h2>
+                <span class="text-dark">Use the below form to create new FoodCategory</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name">Food's Name</label>
+            <input type="text" name="name" value="" class="form-control" id="name" placeholder="Food's Name">
+        </div>
+        <div class="form-group">
+            <label for="cuisine">Type of Cuisine</label>
+            <select name="cuisine" id="cuisine">
+                <option value="cuisine">--Select Cuisine Type--</option>
+                <option value="indian">Indian</option>
+                <option value="chinese">Chinese</option>
+                <option value="italian">Italian</option>
+                
+              </select>
+        </div>
+        <div class="form-group">
+            <label for="category">Food Category</label>
+            <select name="category" id="category">
+                <option value="category">--Select Category--</option>
+                <option value="main">Main course</option>
+                <option value="starter">Starter</option>
+                <option value="desert">Desert</option>
+                
+              </select>
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" name="price" value="" class="form-control" id="price" placeholder="Price for this food">
+        </div>
+        <div class="form-group">
+            <label for="photo ">Food Images</label>
+            <input type="file" id="photoFile" value="" class="form-control ">
+            <textarea id="photo" name="photo" hidden></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="text" name="quantity" value="" class="form-control" id="quantity" placeholder="Business location">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" name="description" value="" class="form-control" id="description" placeholder="Business Address">
+        </div>
+    </div>
+    <!-- /.card-body -->
+
+    <div class="card-footer">
+        <button type="submit" id="submit" class=" btn btn-primary">Submit</button>
+    </div>
+    <!-- /.card-body -->
+
+</form>
+
+<script>
+    const admin = JSON.parse(localStorage.getItem('admin'));
+    if (!admin) {
+        window.location.replace("http://localhost:3000/adminlogin");
+    }
+
+    function encodeImageFileURL(uploadedFile, base64Code) {
+        fileSelect = document.getElementById(uploadedFile).files;
+        if (fileSelect.length > 0) {
+            var fileSelect = fileSelect[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                var srcData = e.target.result;
+                document.getElementById(base64Code).innerHTML = srcData;
+            }
+            fileReader.readAsDataURL(fileSelect);
+        }
+    }
+
+    document.getElementById("photoFile").addEventListener("change", function() {
+        encodeImageFileURL("photoFile", "photo");
+    });
+
+    document.getElementById("addFood").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/foods/create", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+            name: document.getElementById("name").value,
+            cuisine: document.getElementById("cuisine").value,
+            category: document.getElementById("category").value,
+            price: document.getElementById("price").value,
+            photo: document.getElementById("photo").value,
+            quantity: document.getElementById("quantity").value,
+            description: document.getElementById("description").value,
+            companyId: admin._id
+        }));
+        xhr.onload = function() {
+            if (xhr.status != 201) {
+                alert(JSON.parse(xhr.response).error);
+            } else {
+                window.location.replace("http://localhost:3000/foodsection?id=" + admin._id);
+            }
+        };
+    });
+</script>

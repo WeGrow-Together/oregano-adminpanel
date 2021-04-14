@@ -22,11 +22,15 @@ exports.addbusiness = (req, res) => {
 
 exports.updatebusiness = (req, res) => {
     //res.render('updatebusiness');
-    axios.get('http://localhost:3000/api/company/single/'+req.query.id)
+    axios.get('http://localhost:3000/api/company/single/' + req.query.id)
         .then(function(businessdata) {
             res.render("updatebusiness", { business: businessdata.data })
         })
         .catch(err => {
             res.redirect("/business");
         })
+}
+
+exports.adminLogin = (req, res) => {
+    res.render('adminlogin');
 }

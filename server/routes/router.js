@@ -3,7 +3,8 @@ const route = express.Router()
 const multer = require("multer");
 const services = require('../services/render')
 const businessServices = require('../services/businessrender')
-
+const orders = require('../services/orderrender')
+const foodServices = require('../services/foodrender')
 const userController = require('../controller/userController')
 const providerController = require('../controller/providerController')
 
@@ -45,6 +46,12 @@ route.get('/business', businessServices.businessRoutes);
 route.get('/addbusiness', businessServices.addbusiness);
 route.get('/updatebusiness', businessServices.updatebusiness);
 
+// foods view
+route.get('/foodsection', foodServices.listFoods);
+route.get('/addFoodSection', foodServices.addFoods);
+route.get('/updateFoodSection', foodServices.updateFoods);
 
+route.get('/adminlogin', businessServices.adminLogin);
+route.get('/orders', orders.orders);
 
 module.exports = route

@@ -55,3 +55,9 @@
     </div>
 
 </form>
+<script>
+    const admin = JSON.parse(localStorage.getItem('admin'));
+    if (!admin) {
+        window.location.replace("http://localhost:3000/adminlogin");
+    }
+</script>

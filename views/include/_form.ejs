@@ -66,3 +66,9 @@
                 <button type="submit " id="submit" class=" btn btn-primary ">Submit</button>
             </div>
 </form>
+<script>
+    const admin = JSON.parse(localStorage.getItem('admin'));
+    if (!admin) {
+        window.location.replace("http://localhost:3000/adminlogin");
+    }
+</script>
