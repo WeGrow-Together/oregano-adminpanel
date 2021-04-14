@@ -276,13 +276,13 @@
             document.getElementById("order").addEventListener("click", function(e) {
                 const admin = JSON.parse(localStorage.getItem('admin'));
                 if (admin) {
-                    window.location.replace("http://localhost:3000/orders?id=" + admin._id);
+                    window.location.replace("https://origano-admin.herokuapp.com/orders?id=" + admin._id);
                 }
             });
             document.getElementById("food").addEventListener("click", function(e) {
                 const admin = JSON.parse(localStorage.getItem('admin'));
                 if (admin) {
-                    window.location.replace("http://localhost:3000/foodsection?id=" + admin._id);
+                    window.location.replace("https://origano-admin.herokuapp.com/foodsection?id=" + admin._id);
                 }
             });
             $(document).ready(function() {
@@ -296,7 +296,7 @@
                 }
                 $("#logout").on('click', function() {
                     localStorage.removeItem("admin");
-                    window.location.replace("http://localhost:3000/adminlogin");
+                    window.location.replace("https://origano-admin.herokuapp.com/adminlogin");
                 })
             });
         </script>

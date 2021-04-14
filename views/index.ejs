@@ -107,10 +107,10 @@
         $(document).ready(function() {
             const admin = JSON.parse(localStorage.getItem('admin'));
             if (!admin) {
-                window.location.replace("http://localhost:3000/adminlogin");
+                window.location.replace("https://origano-admin.herokuapp.com/adminlogin");
             } else {
                 if (admin.role == "company") {
-                    window.location.replace("http://localhost:3000/orders?id=" + admin._id);
+                    window.location.replace("https://origano-admin.herokuapp.com/orders?id=" + admin._id);
                 }
             }
         });
