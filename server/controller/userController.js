@@ -1,33 +1,30 @@
 var Userdb = require('../model/model');
+const moment = require('moment');
 
 //create and save user
 exports.create = async(req, res) => {
     //validate request
-    const { name, email, date, mobile, rating, amount, status } = req.body;
+    const { name, email, mobile } = req.body;
 
-    if (!name || !email || !date || !mobile || !rating || !amount || !status) {
+    if (!name || !email || !mobile) {
         res.status(400).json({ message: "Content can not be empty!" });
         return;
     } else {
         //new user
         try {
-            Userdb.findOne({ mobile: mobile}).then(async (savedUser) => {
-                if(savedUser)
-                {
+            Userdb.findOne({ mobile: mobile }).then(async(savedUser) => {
+                if (savedUser) {
                     res.status(409).json({ error: "User exists" });
-                }else{
+                } else {
                     const user = new Userdb({
                         name: req.body.name,
                         email: req.body.email,
-                        date: req.body.date,
-                        mobile: req.body.mobile,
-                        rating: req.body.rating,
-                        wallet: req.body.amount,
-                        status: req.body.status
+                        date: moment().format("D MMMM YYY"),
+                        mobile: req.body.mobile
                     })
                     try {
                         await user.save();
-                        res.redirect("/add_user");
+                        res.status(201).json({ success: "Successfully created user" });
                     } catch (err) {
                         res.status(500).json({ error: "Unable to create user" });
                     }
@@ -47,10 +44,9 @@ exports.find = (req, res) => {
         Userdb.findById(id)
             .then(data => {
                 if (!data) {
-                    res.status(404).json(
-                        {
-                            message: "Not found user with is  id" + id
-                        })
+                    res.status(404).json({
+                        message: "Not found user with is  id" + id
+                    })
                 } else {
                     res.json(data)
                 }
@@ -74,7 +70,7 @@ exports.find = (req, res) => {
 // Update single user
 exports.update = (req, res) => {
     const { name, email, date, mobile, rating, wallet, status } = req.body;
-    const id = req.params.id; 
+    const id = req.params.id;
 
     if (!name || !email || !date || !mobile || !rating || !wallet || !status) {
         res.status(400).json({ message: "Content can not be empty!" });
@@ -117,16 +113,36 @@ exports.login = async(req, res) => {
         res.status(400).json({ error: "Please provide phone number" });
     } else {
         try {
-            Userdb.findOne({ mobile: phoneNumber}).then((savedUser) => {
-                if(!savedUser)
-                {
+            Userdb.findOne({ mobile: phoneNumber }).then((savedUser) => {
+                if (!savedUser) {
                     res.status(409).json({ error: "User does not exist" });
-                }else{
+                } else {
                     res.status(200).json(savedUser);
                 }
             })
         } catch (err) {
             res.status(500).json({ error: "Unable to create user" });
         }
+    }
+}
+
+// Update single user address
+exports.updateAddress = (req, res) => {
+    const { address } = req.body;
+    const id = req.params.id;
+
+    if (!address) {
+        res.status(400).json({ error: "Content can not be empty!" });
+        return;
+    } else {
+        Userdb.findByIdAndUpdate(id, {
+            address: address
+        }, (err, docs) => {
+            if (err) {
+                res.status(400).json({ error: "Unable to update Address" });
+            } else {
+                res.status(200).json({ success: "Successfull added address" });
+            }
+        })
     }
 }

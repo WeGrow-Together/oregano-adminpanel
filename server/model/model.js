@@ -11,7 +11,7 @@ var schema = new mongoose.Schema({
     },
     date: {
         type: String,
-
+        required: true
     },
     mobile: {
         type: String,
@@ -20,13 +20,16 @@ var schema = new mongoose.Schema({
     },
     rating: {
         type: String,
-
+        default: ""
     },
     wallet: {
         type: String,
-
+        default: ""
     },
-
+    address: {
+        type: String,
+        default: ""
+    },
     status: String
 })
 
