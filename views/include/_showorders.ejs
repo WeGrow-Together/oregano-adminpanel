@@ -1,0 +1,21 @@
+<% order.forEach(function(ord, i) { %>
+    <tr>
+        <td>
+            <%=i+1%>
+        </td>
+        <td>
+            <%=ord.foodName%>
+        </td>
+        <td>
+            <%=ord.userName%>
+        </td>
+        <td>
+            <%=ord.quantity%>
+        </td>
+        <td>
+            <%=ord.totalAmount%>
+        </td>
+
+    </tr>
+
+    <% }); %>

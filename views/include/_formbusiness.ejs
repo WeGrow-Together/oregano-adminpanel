@@ -109,15 +109,12 @@
 </form>
 
 <script>
-    function encodeImageFileURL(uploadedFile, base64Code)
-    {
+    function encodeImageFileURL(uploadedFile, base64Code) {
         fileSelect = document.getElementById(uploadedFile).files;
-        if(fileSelect.length > 0)
-        {
+        if (fileSelect.length > 0) {
             var fileSelect = fileSelect[0];
             var fileReader = new FileReader();
-            fileReader.onload = function(e)
-            {
+            fileReader.onload = function(e) {
                 var srcData = e.target.result;
                 document.getElementById(base64Code).innerHTML = srcData;
             }
@@ -125,19 +122,19 @@
         }
     }
 
-    document.getElementById("tradeLicenseImg").addEventListener("change", function(){
-        encodeImageFileURL("tradeLicenseImg","tradeLicense");
+    document.getElementById("tradeLicenseImg").addEventListener("change", function() {
+        encodeImageFileURL("tradeLicenseImg", "tradeLicense");
     });
 
-    document.getElementById("panCardImage").addEventListener("change", function(){
-        encodeImageFileURL("panCardImage","panCardImageCode");
+    document.getElementById("panCardImage").addEventListener("change", function() {
+        encodeImageFileURL("panCardImage", "panCardImageCode");
     });
 
-    document.getElementById("agreementCopyImg").addEventListener("change", function(){
-        encodeImageFileURL("agreementCopyImg","agreementCopy");
+    document.getElementById("agreementCopyImg").addEventListener("change", function() {
+        encodeImageFileURL("agreementCopyImg", "agreementCopy");
     });
 
-    document.getElementById("addbusiness").addEventListener("submit", function(e){
+    document.getElementById("addbusiness").addEventListener("submit", function(e) {
         e.preventDefault();
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/api/company/create", true);
@@ -162,7 +159,7 @@
             dateOfEstablishment: document.getElementById("dateOfEstablishment").value
         }));
         xhr.onload = function() {
-            if (xhr.status != 200) { 
+            if (xhr.status != 200) {
                 alert(JSON.parse(xhr.response).error);
             } else {
                 alert(JSON.parse(xhr.response).success);
@@ -170,4 +167,8 @@
         };
     });
 
+    const admin = JSON.parse(localStorage.getItem('admin'));
+    if (!admin) {
+        window.location.replace("http://localhost:3000/adminlogin");
+    }
 </script>

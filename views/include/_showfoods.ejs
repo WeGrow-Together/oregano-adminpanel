@@ -1,7 +1,5 @@
 <%for(var i=0; i < food.length;i++){%>
 
-
-
     <tr>
         <td>
             <%=i+1%>
@@ -13,16 +11,16 @@
             <%=food[i].cuisine%>
         </td>
         <td>
-            <img src="<%=food[i].photo%>" height="20" width="20" alt="Food"/>
+            <%=food[i].category%>
+        </td>
+        <td>
+            <img src="<%=food[i].photo%>" height="20" width="20" alt="Food" />
         </td>
         <td>
             <%=food[i].quantity%>
         </td>
         <td>
             <%=food[i].description%>
-        </td>
-        <td>
-            <%=food[i].companyId%>
         </td>
         <td>
             <a href="/updateFoodSection?id=<%=food[i]._id%>" class="btn border-shadow update">
@@ -35,3 +33,9 @@
     </tr>
 
     <%}%>
+        <script>
+            const admin = JSON.parse(localStorage.getItem('admin'));
+            if (!admin) {
+                window.location.replace("http://localhost:3000/adminlogin");
+            }
+        </script>

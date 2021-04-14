@@ -19,14 +19,13 @@
             <%=business[i].phoneNumber%>
         </td>
         <td>
-            <%=business[i].tradeLicense%>
+            <img src="<%=business[i].tradeLicense%>" height="20" width="20" alt="businessimage" />
         </td>
         <td>
-            <%=business[i].panCardImage%>
+            <img src="<%=business[i].panCardImage%>" height="20" width="20" alt="businessimage" />
         </td>
-
         <td>
-            <%=business[i].agreementCopy%>
+            <img src="<%=business[i].agreementCopy%>" height="20" width="20" alt="business" />
         </td>
         <td>
             <%=business[i].businessLocation%>
@@ -63,3 +62,9 @@
     </tr>
 
     <%}%>
+        <script>
+            const admin = JSON.parse(localStorage.getItem('admin'));
+            if (!admin) {
+                window.location.replace("http://localhost:3000/adminlogin");
+            }
+        </script>

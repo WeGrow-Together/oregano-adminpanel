@@ -195,22 +195,40 @@
 
 
 
-                        <li class="nav-item">
+                        <li class="nav-item" id="userLink">
                             <a href="/" class="nav-link">
                                 <i class="nav-icon far fa-circle text-warning"></i>
                                 <p>users</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="providerLink">
                             <a href="/provider" class="nav-link">
                                 <i class="nav-icon far fa-circle text-info"></i>
                                 <p>provider</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="businessLink">
                             <a href="/business" class="nav-link">
                                 <i class="nav-icon far fa-circle text-info"></i>
                                 <p>Business</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" id="food" class="nav-link">
+                                <i class="nav-icon far fa-circle text-info"></i>
+                                <p>Food Menu</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" id="order" class="nav-link">
+                                <i class="nav-icon far fa-circle text-info"></i>
+                                <p>Orders</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" id="logout" class="nav-link">
+                                <i class="nav-icon far fa-circle text-info"></i>
+                                <p>Log Out</p>
                             </a>
                         </li>
                     </ul>
@@ -219,3 +237,66 @@
             </div>
             <!-- /.sidebar -->
         </aside>
+
+        <script src="plugins/jquery/jquery.min.js"></script>
+        <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+            $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <!-- Bootstrap 4 -->
+        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- ChartJS -->
+        <script src="plugins/chart.js/Chart.min.js"></script>
+        <!-- Sparkline -->
+        <script src="plugins/sparklines/sparkline.js"></script>
+        <!-- JQVMap -->
+        <script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+        <script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+        <!-- jQuery Knob Chart -->
+        <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+        <!-- daterangepicker -->
+        <script src="plugins/moment/moment.min.js"></script>
+        <script src="plugins/daterangepicker/daterangepicker.js"></script>
+        <!-- Tempusdominus Bootstrap 4 -->
+        <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+        <!-- Summernote -->
+        <script src="plugins/summernote/summernote-bs4.min.js"></script>
+        <!-- overlayScrollbars -->
+        <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="js/adminlte.js"></script>
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <script src="js/pages/dashboard.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="js/demo.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+
+        <script>
+            document.getElementById("order").addEventListener("click", function(e) {
+                const admin = JSON.parse(localStorage.getItem('admin'));
+                if (admin) {
+                    window.location.replace("http://localhost:3000/orders?id=" + admin._id);
+                }
+            });
+            document.getElementById("food").addEventListener("click", function(e) {
+                const admin = JSON.parse(localStorage.getItem('admin'));
+                if (admin) {
+                    window.location.replace("http://localhost:3000/foodsection?id=" + admin._id);
+                }
+            });
+            $(document).ready(function() {
+                const admin = JSON.parse(localStorage.getItem('admin'));
+                if (admin) {
+                    if (admin.role == "company") {
+                        $('#userLink').hide();
+                        $('#providerLink').hide();
+                        $('#businessLink').hide();
+                    }
+                }
+                $("#logout").on('click', function() {
+                    localStorage.removeItem("admin");
+                    window.location.replace("http://localhost:3000/adminlogin");
+                })
+            });
+        </script>

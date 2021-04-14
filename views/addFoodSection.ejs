@@ -11,13 +11,22 @@
                     <div class="col-sm-8">
                         <!-- /.card-header -->
                         <!-- form start -->
-
-
                         <%-include('include/_formFoods')%>
-
 
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            const admin = JSON.parse(localStorage.getItem('admin'));
+            if (!admin) {
+                window.location.replace("http://localhost:3000/adminlogin");
+            } else {
+                if (admin.role == "company") {
+                    window.location.replace("http://localhost:3000/orders?id=" + admin._id);
+                }
+            }
+        });
+    </script>

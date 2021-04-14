@@ -121,7 +121,7 @@ exports.adminLogin = async(req, res) => {
     const { phoneNumber, password } = req.body;
 
     if (!phoneNumber || !password) {
-        res.status(400).json({ message: "Content can not be empty!" });
+        res.status(400).json({ error: "Content can not be empty!" });
     } else {
         //new admin
         try {

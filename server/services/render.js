@@ -56,8 +56,8 @@ exports.update_provider = (req, res) => {
         .then(function(providerdata) {
             res.render("update_provider", { provider: providerdata.data })
         })
-        // res.render('update_user');
-        .catch(err => {
-            res.send(err);
-        })
+
+    .catch(err => {
+        res.send(err);
+    })
 }

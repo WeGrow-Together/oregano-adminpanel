@@ -29,11 +29,11 @@
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Cuisine</th>
-                                            <th>Price</th>
+                                            <th>Category</th>
                                             <th>FoodImages</th>
                                             <th>Quantity</th>
                                             <th>Description</th>
-                                            <th>Company Id</th>
+                                            <th>Action</th>
 
                                         </tr>
                                     </thead>
@@ -102,7 +102,13 @@
     <!-- AdminLTE for demo purposes -->
     <script src="js/demo.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
-    <script src="/js/provider.js"></script>
+    <script src="/js/foods.js"></script>
+    <script>
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        if (!admin) {
+            window.location.replace("http://localhost:3000/adminlogin");
+        }
+    </script>
     </body>
 
     </html>

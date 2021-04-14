@@ -33,8 +33,6 @@
                                                 <i class="fas fa-angle-double-left "></i>All FoodCategies</a>
                                         </div>
                                         <br>
-
-
                                     </div>
                                     <div class="form-group">
                                         <label for="name ">Food's Name</label>
@@ -46,6 +44,15 @@
                                             <option value="indian">Indian</option>
                                             <option value="chinese">Chinese</option>
                                             <option value="italian">Italian</option>
+                                            
+                                          </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="category">Food Category</label>
+                                        <select name="category" id="category">
+                                            <option value="main">Main course</option>
+                                            <option value="starter">Starter</option>
+                                            <option value="desert">Desert</option>
                                             
                                           </select>
                                     </div>
@@ -67,10 +74,6 @@
                                         <label for="description ">Description</label>
                                         <input type="text " name="description" value="" class="form-control " id="description" placeholder="Business Address">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="companyId ">companyId</label>
-                                        <input type="text " name="companyId" value="" class="form-control " id="companyId" placeholder="Business Address">
-                                    </div>
                                 </div>
                                 <!-- /.card-body -->
 
@@ -79,9 +82,6 @@
                                 </div>
 
                             </form>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -102,24 +102,26 @@
                 fileReader.readAsDataURL(fileSelect);
             }
         }
-    
+
         document.getElementById("photoFile").addEventListener("change", function() {
             encodeImageFileURL("photoFile", "photo");
         });
-    
+
         document.getElementById("updateFoodCategory").addEventListener("submit", function(e) {
             e.preventDefault();
+            const admin = JSON.parse(localStorage.getItem('admin'));
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/api/foods/update/<%=food._id%>", true);
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send(JSON.stringify({
                 name: document.getElementById("name").value,
                 cuisine: document.getElementById("cuisine").value,
+                category: document.getElementById("category").value,
                 price: document.getElementById("price").value,
                 photo: document.getElementById("photo").value,
                 quantity: document.getElementById("quantity").value,
                 description: document.getElementById("description").value,
-                companyId: document.getElementById("companyId").value,
+                companyId: admin._id
             }));
             xhr.onload = function() {
                 if (xhr.status != 200) {
@@ -129,4 +131,9 @@
                 }
             };
         });
+
+        const admin = JSON.parse(localStorage.getItem('admin'));
+        if (!admin) {
+            window.location.replace("http://localhost:3000/adminlogin");
+        }
     </script>
