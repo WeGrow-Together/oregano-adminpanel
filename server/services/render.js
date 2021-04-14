@@ -4,7 +4,7 @@ const axios = require("axios");
 
 exports.homeRoutes = (req, res) => {
     //make a get request to/api/users
-    axios.get('http://localhost:3000/api/users')
+    axios.get('https://origano-admin.herokuapp.com/api/users')
         .then(function(response) {
             // console.log(response)
             res.render('index', {
@@ -20,7 +20,7 @@ exports.add_user = (req, res) => {
     res.render('add_user');
 }
 exports.update_user = (req, res) => {
-    axios.get('http://localhost:3000/api/users', { params: { id: req.query.id } })
+    axios.get('https://origano-admin.herokuapp.com/api/users', { params: { id: req.query.id } })
         .then(function(userdata) {
             res.render("update_user", { user: userdata.data })
         })
@@ -34,7 +34,7 @@ exports.update_user = (req, res) => {
 
 exports.providerRoutes = (req, res) => {
     //make a get request to/api/users
-    axios.get('http://localhost:3000/api/providers')
+    axios.get('https://origano-admin.herokuapp.com/api/providers')
         .then(function(response) {
             // console.log(response)
             res.render('provider', {
@@ -52,7 +52,7 @@ exports.add_provider = (req, res) => {
 }
 
 exports.update_provider = (req, res) => {
-    axios.get('http://localhost:3000/api/providers', { params: { id: req.query.id } })
+    axios.get('https://origano-admin.herokuapp.com/api/providers', { params: { id: req.query.id } })
         .then(function(providerdata) {
             res.render("update_provider", { provider: providerdata.data })
         })

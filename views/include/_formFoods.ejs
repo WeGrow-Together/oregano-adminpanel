@@ -66,7 +66,7 @@
 <script>
     const admin = JSON.parse(localStorage.getItem('admin'));
     if (!admin) {
-        window.location.replace("http://localhost:3000/adminlogin");
+        window.location.replace("https://origano-admin.herokuapp.com/adminlogin");
     }
 
     function encodeImageFileURL(uploadedFile, base64Code) {
@@ -106,7 +106,7 @@
             if (xhr.status != 201) {
                 alert(JSON.parse(xhr.response).error);
             } else {
-                window.location.replace("http://localhost:3000/foodsection?id=" + admin._id);
+                window.location.replace("https://origano-admin.herokuapp.com/foodsection?id=" + admin._id);
             }
         };
     });

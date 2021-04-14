@@ -4,7 +4,7 @@ const axios = require("axios");
 exports.businessRoutes = (req, res) => {
 
     // res.render('business');
-    axios.get('http://localhost:3000/api/company/all-companies')
+    axios.get('https://origano-admin.herokuapp.com/api/company/all-companies')
         .then((response) => {
             // console.log(response)
             res.render('business', {
@@ -22,7 +22,7 @@ exports.addbusiness = (req, res) => {
 
 exports.updatebusiness = (req, res) => {
     //res.render('updatebusiness');
-    axios.get('http://localhost:3000/api/company/single/' + req.query.id)
+    axios.get('https://origano-admin.herokuapp.com/api/company/single/' + req.query.id)
         .then(function(businessdata) {
             res.render("updatebusiness", { business: businessdata.data })
         })

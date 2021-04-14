@@ -250,7 +250,7 @@
                 alert(JSON.parse(xhr.response).error);
             } else {
                 localStorage.setItem('admin', xhr.response);
-                window.location.replace("http://localhost:3000/business");
+                window.location.replace("https://origano-admin.herokuapp.com/business");
             }
         };
     });
