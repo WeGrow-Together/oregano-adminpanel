@@ -23,10 +23,6 @@
             const admin = JSON.parse(localStorage.getItem('admin'));
             if (!admin) {
                 window.location.replace("https://origano-admin.herokuapp.com/adminlogin");
-            } else {
-                if (admin.role == "company") {
-                    window.location.replace("https://origano-admin.herokuapp.com/orders?id=" + admin._id);
-                }
             }
         });
     </script>

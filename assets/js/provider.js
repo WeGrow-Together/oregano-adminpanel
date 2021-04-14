@@ -3,7 +3,7 @@ if (window.location.pathname == "/provider") {
     $ondelete.click(function() {
         var id = $(this).attr("data-id")
         var request = {
-            "url": 'http://localhost:3000/api/providers/delete/' + id,
+            "url": 'https://origano-admin.herokuapp.com/api/providers/delete/' + id,
             "method": "DELETE"
         }
         if (confirm("Do you really want to delete this record?")) {

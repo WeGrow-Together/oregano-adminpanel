@@ -1,16 +1,29 @@
 const axios = require("axios");
 
 exports.listFoods = (req, res) => {
-    axios.get('https://origano-admin.herokuapp.com/api/foods/company/' + req.query.id)
-        .then((response) => {
-            // console.log(response)
-            res.render('foodsection', {
-                food: response.data
-            });
-        })
-        .catch(err => {
-            res.send(err);
-        })
+    if (req.query.id) {
+        axios.get('https://origano-admin.herokuapp.com/api/foods/company/' + req.query.id)
+            .then((response) => {
+                // console.log(response)
+                res.render('foodsection', {
+                    food: response.data
+                });
+            })
+            .catch(err => {
+                res.send(err);
+            })
+    } else {
+        axios.get('https://origano-admin.herokuapp.com/api/foods/all')
+            .then((response) => {
+                // console.log(response)
+                res.render('foodsection', {
+                    food: response.data
+                });
+            })
+            .catch(err => {
+                res.send(err);
+            })
+    }
 }
 exports.addFoods = (req, res) => {
     res.render('addFoodSection');

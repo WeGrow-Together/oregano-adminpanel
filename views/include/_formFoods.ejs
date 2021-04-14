@@ -2,8 +2,8 @@
     <div class="card-body">
         <div class="form-group">
             <div class="filter">
-                <a href="/foodsection">
-                    <i class="fas fa-angle-double-left"></i>All Foodcategories</a>
+                <a href="#" id="food">
+                    <i class="fas fa-angle-double-left mr-2"></i>All Foodcategories</a>
             </div>
             <br>
             <div class="form-title text-center">
@@ -86,6 +86,16 @@
         encodeImageFileURL("photoFile", "photo");
     });
 
+    document.getElementById("food").addEventListener("click", function() {
+        if (admin) {
+            if (admin.role == "company") {
+                window.location.replace("https://origano-admin.herokuapp.com/foodsection?id=" + admin._id);
+            } else {
+                window.location.replace("https://origano-admin.herokuapp.com/foodsection");
+            }
+        }
+    });
+
     document.getElementById("addFood").addEventListener("submit", function(e) {
         e.preventDefault();
         const admin = JSON.parse(localStorage.getItem('admin'));
@@ -106,7 +116,11 @@
             if (xhr.status != 201) {
                 alert(JSON.parse(xhr.response).error);
             } else {
-                window.location.replace("https://origano-admin.herokuapp.com/foodsection?id=" + admin._id);
+                if (admin.role == "company") {
+                    window.location.replace("https://origano-admin.herokuapp.com/foodsection?id=" + admin._id);
+                } else {
+                    window.location.replace("https://origano-admin.herokuapp.com/foodsection");
+                }
             }
         };
     });
