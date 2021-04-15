@@ -162,7 +162,7 @@
             if (xhr.status != 200) {
                 alert(JSON.parse(xhr.response).error);
             } else {
-                alert(JSON.parse(xhr.response).success);
+                window.location.replace("https://origano-admin.herokuapp.com/business");
             }
         };
     });

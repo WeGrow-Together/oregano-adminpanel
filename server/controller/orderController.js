@@ -4,9 +4,9 @@ const moment = require('moment');
 
 //create order
 exports.createOrder = async(req, res) => {
-    const { foodId, foodName, userId, userName, companyId, quantity, totalAmount, paymentType, orderId, paymentId } = req.body;
+    const { foodId, foodName, userId, userName, userAddress, companyId, quantity, totalAmount, paymentType, orderId, paymentId } = req.body;
 
-    if (!foodId || !foodName || !userId || !userName || !quantity || !totalAmount || !paymentType) {
+    if (!foodId || !foodName || !userId || !userName || !userAddress || !quantity || !totalAmount || !paymentType) {
         res.status(400).json({ error: "Please provide all data" });
     } else {
         //new food
@@ -16,6 +16,7 @@ exports.createOrder = async(req, res) => {
                 foodName: foodName,
                 userId: userId,
                 userName: userName,
+                userAddress: userAddress,
                 companyId: companyId,
                 quantity: quantity,
                 totalAmount: totalAmount,
@@ -100,9 +101,9 @@ exports.getAllOrders = async(req, res) => {
 // Update order status processing
 exports.orderStatusProcessing = async(req, res) => {
     const { id } = req.params;
-    const { providerId } = req.body;
+    const { providerId, providerName } = req.body;
 
-    if (!providerId) {
+    if (!providerId || !providerName) {
         res.status(400).json({ error: "Please provide Provider Id" });
     } else {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
@@ -111,6 +112,7 @@ exports.orderStatusProcessing = async(req, res) => {
                 try {
                     await Order.findByIdAndUpdate(id, {
                         providerId: providerId,
+                        providerName: providerName,
                         orderStatus: "processing"
                     }, (err, docs) => {
                         if (err) {
