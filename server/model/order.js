@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 var orderSchema = new mongoose.Schema({
     foodId: {
         type: String,
-        required:true
+        required: true
     },
     foodName: {
         type: String,
-        required:true
+        required: true
     },
     userId: {
         type: String,
@@ -49,6 +49,14 @@ var orderSchema = new mongoose.Schema({
         default: ""
     },
     providerId: {
+        type: String,
+        default: ""
+    },
+    providerName: {
+        type: String,
+        default: ""
+    },
+    userAddress: {
         type: String,
         default: ""
     },

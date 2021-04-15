@@ -20,10 +20,16 @@
             <img src="<%=business[i].tradeLicense%>" height="20" width="20" alt="businessimage" />
         </td>
         <td>
-            <img src="<%=business[i].panCardImage%>" height="20" width="20" alt="businessimage" />
+            <%=business[i].typeOfCompany%>
         </td>
         <td>
-            <img src="<%=business[i].agreementCopy%>" height="20" width="20" alt="business" />
+            <%=business[i].panCardNumber%>
+        </td>
+        <td>
+            <img src="<%=business[i].panCardImage%>" height="20" width="20" alt="panCardImage" />
+        </td>
+        <td>
+            <img src="<%=business[i].agreementCopy%>" height="20" width="20" alt="agreementCopy" />
         </td>
         <td>
             <%=business[i].businessLocation%>
@@ -44,7 +50,7 @@
             <%=business[i].ifscCode%>
         </td>
         <td>
-            <%=business[i].typeOfService%>
+            <%=business[i].typesOfService%>
         </td>
         <td>
             <%=business[i].dateOfEstablishment%>

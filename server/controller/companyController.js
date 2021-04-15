@@ -93,7 +93,7 @@ exports.createCompany = async(req, res) => {
                                 gstNumber,
                                 accountNumber,
                                 ifscCode,
-                                typeOfService,
+                                typesOfService: typeOfService,
                                 dateOfEstablishment,
                                 password: hashedPassword,
                                 role: "company"
