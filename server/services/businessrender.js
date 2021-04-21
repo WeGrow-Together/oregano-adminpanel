@@ -17,7 +17,7 @@ exports.businessRoutes = (req, res) => {
 }
 
 exports.addbusiness = (req, res) => {
-    res.render('addbusiness');
+    res.render('addbusiness');   
 }
 
 exports.updatebusiness = (req, res) => {
