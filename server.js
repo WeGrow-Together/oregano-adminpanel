@@ -43,6 +43,8 @@ app.use('/', require('./server/routes/router'));
 app.use('/api/company', require('./server/routes/companyRoute'));
 app.use('/api/foods', require('./server/routes/foodRoute'));
 app.use('/api/orders', require('./server/routes/orderRoute'));
+app.use('/api/cart', require('./server/routes/cartRoute'));
+app.use('/api/offers', require('./server/routes/offerRoute'));
 
 app.listen(port, () => {
     console.log(`listening to the port no ${port}`);
