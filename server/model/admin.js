@@ -68,6 +68,10 @@ var adminSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    cuisine: {
+        type: Array,
+        default: []
+    },
     password: {
         type: String,
         default: ""

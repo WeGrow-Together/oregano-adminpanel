@@ -190,6 +190,7 @@ exports.updateCompany = async(req, res) => {
         phoneNumber,
         tradeLicense,
         typeOfCompany,
+        cuisine,
         panCardNumber,
         panCardImage,
         agreementCopy,
@@ -226,7 +227,8 @@ exports.updateCompany = async(req, res) => {
                 accountNumber,
                 ifscCode,
                 typeOfService,
-                dateOfEstablishment
+                dateOfEstablishment,
+                cuisine
             }, (err, docs) => {
                 if (err) {
                     res.status(404).json({ error: "Unexpected error! Try again later." });

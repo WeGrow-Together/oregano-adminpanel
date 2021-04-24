@@ -48,13 +48,43 @@ exports.addItemToCart = (req, res) => {
     });
 };
 
-exports.allCartItems = (req, res) => {
-    Cart.find().then((cart) => {
+exports.userCartItems = (req, res) => {
+    Cart.findOne({ user: req.params.id}).then((cart) => {
         if(cart)
         {
             res.status(200).json(cart);
         }else{
             res.status(400).json({ error: "Not Found" });
+        }
+    });
+}
+
+exports.deleteCartItems = (req, res) => {
+    Cart.findOne({ user: req.params.userId}).then((cart) => {
+        if(cart)
+        {
+            const foodId = req.params.foodId;
+            const food = cart.cartItems.find(c => c.foodId == foodId);
+            if(food)
+            {
+                Cart.findOneAndUpdate({ user: req.params.userId, "cartItems.foodId": foodId }, { 
+                    $pull: {
+                        cartItems: {
+                            foodId: food.foodId
+                        }
+                    }
+                },{ returnOriginal: false }, (err, docs) => {
+                    if (err) {
+                        res.status(404).json({ error: "Unexpected error! Try again later." });
+                    } else {
+                        res.status(200).json(docs);
+                    }
+                });
+            }else{
+                res.status(400).json({ error: "Food does not exist in cart" });
+            }
+        }else{
+            res.status(400).json({ error: "No Cart Found" });
         }
     });
 }
