@@ -52,6 +52,7 @@ exports.createCompany = async(req, res) => {
         phoneNumber,
         tradeLicense,
         typeOfCompany,
+        cuisine,
         panCardNumber,
         panCardImage,
         agreementCopy,
@@ -96,7 +97,8 @@ exports.createCompany = async(req, res) => {
                                 typesOfService: typeOfService,
                                 dateOfEstablishment,
                                 password: hashedPassword,
-                                role: "company"
+                                role: "company",
+                                cuisine
                             })
                             try {
                                 await company.save();
@@ -190,6 +192,7 @@ exports.updateCompany = async(req, res) => {
         phoneNumber,
         tradeLicense,
         typeOfCompany,
+        cuisine,
         panCardNumber,
         panCardImage,
         agreementCopy,
@@ -226,7 +229,8 @@ exports.updateCompany = async(req, res) => {
                 accountNumber,
                 ifscCode,
                 typeOfService,
-                dateOfEstablishment
+                dateOfEstablishment,
+                cuisine
             }, (err, docs) => {
                 if (err) {
                     res.status(404).json({ error: "Unexpected error! Try again later." });
