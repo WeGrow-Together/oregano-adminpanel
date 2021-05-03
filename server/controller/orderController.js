@@ -1,33 +1,60 @@
 const mongoose = require('mongoose');
 var Order = require('../model/order');
+var Cart = require('../model/cart');
+var Company = require('../model/admin');
+var User = require('../model/model');
 const moment = require('moment');
 
 //create order
-exports.createOrder = async(req, res) => {
-    const { foodId, foodName, userId, userName, userAddress, companyId, quantity, totalAmount, paymentType, orderId, paymentId } = req.body;
+exports.createOrder = (req, res) => {
+    const { userAddress, companyId, cartId, totalAmount, offers, paymentType, orderId, paymentId } = req.body;
 
-    if (!foodId || !foodName || !userId || !userName || !userAddress || !quantity || !totalAmount || !paymentType) {
+    if ( !userAddress || !companyId || !cartId || !totalAmount || !paymentType) {
         res.status(400).json({ error: "Please provide all data" });
     } else {
         //new food
         try {
-            const order = new Order({
-                foodId: foodId,
-                foodName: foodName,
-                userId: userId,
-                userName: userName,
-                userAddress: userAddress,
-                companyId: companyId,
-                quantity: quantity,
-                totalAmount: totalAmount,
-                paymentType: paymentType,
-                orderTime: moment().format("hh:mm A"),
-                orderDate: moment().format("D MMMM YYYY"),
-                orderId: orderId,
-                paymentId: paymentId
-            });
-            await order.save();
-            res.status(201).json({ success: "Order placed successfully" });
+            Cart.findById(cartId).then(cart => {
+                if(cart)
+                {
+                    Company.findById(companyId).then(company =>{
+                        if(company)
+                        {
+                            User.findById(cart.user).then(user => {
+                                if(user)
+                                {
+                                    const order = new Order({
+                                        userId: cart.user,
+                                        userName: user.name,
+                                        userAddress: userAddress,
+                                        companyId: companyId,
+                                        companyName: company.companyName,
+                                        companyAddress: company.businessAddress,
+                                        totalAmount: totalAmount,
+                                        paymentType: paymentType,
+                                        offers: offers,
+                                        orderDetails: cart.cartItems,
+                                        orderTime: moment().format("hh:mm A"),
+                                        orderDate: moment().format("D MMMM YYYY"),
+                                        orderId: orderId,
+                                        paymentId: paymentId
+                                    });
+                                    order.save().then(newOrder => {
+                                        Cart.findByIdAndRemove(cartId);
+                                        res.status(201).json(newOrder);
+                                    }).catch(err => res.status(400).json({ success: "Order placed successfully" }));
+                                }else{
+                                    res.status(400).json({ error: "Invalid Company" });
+                                }
+                            }).catch(err => res.status(400).json({ error: err.message}));
+                        }else{
+                            res.status(400).json({ error: "Invalid Company" });
+                        }
+                    }).catch(err => res.status(400).json({ error: err.message}));
+                }else{
+                    res.status(400).json({ error: "Cart is empty" });
+                }
+            }).catch(err => res.status(400).json({ error: err.message}));
         } catch (err) {
             res.status(500).json({ error: "Unable to place order" });
         }
@@ -84,7 +111,6 @@ exports.getUserOrders = async(req, res) => {
 
 // Get all order
 exports.getAllOrders = async(req, res) => {
-    const { id } = req.params;
     try {
         await Order.find().then(async(savedOrder) => {
             if (savedOrder) {
@@ -99,7 +125,7 @@ exports.getAllOrders = async(req, res) => {
 }
 
 // Update order status processing
-exports.orderStatusProcessing = async(req, res) => {
+exports.orderStatusAccepted = async(req, res) => {
     const { id } = req.params;
     const { providerId, providerName } = req.body;
 
@@ -113,12 +139,12 @@ exports.orderStatusProcessing = async(req, res) => {
                     await Order.findByIdAndUpdate(id, {
                         providerId: providerId,
                         providerName: providerName,
-                        orderStatus: "processing"
+                        orderStatus: "accepted"
                     }, (err, docs) => {
                         if (err) {
                             res.status(404).json({ error: "Unexpected error! Try again later." });
                         } else {
-                            res.status(200).json({ success: "Processing order" });
+                            res.status(200).json({ success: "Accepted order" });
                         }
                     });
                 } catch (err) {
@@ -131,11 +157,31 @@ exports.orderStatusProcessing = async(req, res) => {
     }
 }
 
+// Update order status Food collected
+exports.orderStatusCollected = async(req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        res.status(400).json({ error: "Please provide Provider Id" });
+    } else {
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
+        await Order.findByIdAndUpdate(id, {
+            orderStatus: "collected"
+        }, (err, docs) => {
+            if (err) {
+                res.status(404).json({ error: "Unexpected error! Try again later." });
+            } else {
+                res.status(200).json({ success: "Delivered Order" });
+            }
+        });
+    }
+}
+
 // Update order status delivered
 exports.orderStatusDelivered = async(req, res) => {
     const { id } = req.params;
 
-    if (!providerId) {
+    if (!id) {
         res.status(400).json({ error: "Please provide Provider Id" });
     } else {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
@@ -169,7 +215,7 @@ exports.orderSameUser = async(req, res) => {
 // Get orders
 exports.getOrdered = async(req, res) => {
     try {
-        await Order.find({ orderStatus: "ordered" }).then(async(savedOrder) => {
+        await Order.find({ $nor: [ { orderStatus: "delivered" }, { orderStatus: "collected" } ] }).then(async(savedOrder) => {
             if (savedOrder) {
                 res.status(200).json(savedOrder);
             } else {

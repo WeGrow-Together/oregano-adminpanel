@@ -52,6 +52,7 @@ exports.createCompany = async(req, res) => {
         phoneNumber,
         tradeLicense,
         typeOfCompany,
+        cuisine,
         panCardNumber,
         panCardImage,
         agreementCopy,
@@ -96,7 +97,8 @@ exports.createCompany = async(req, res) => {
                                 typesOfService: typeOfService,
                                 dateOfEstablishment,
                                 password: hashedPassword,
-                                role: "company"
+                                role: "company",
+                                cuisine
                             })
                             try {
                                 await company.save();

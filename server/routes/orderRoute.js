@@ -9,7 +9,7 @@ route.get('/user/:id', orderController.getUserOrders);
 route.get('/company/:id', orderController.getCompanyOrders);
 route.get('/provider/:id', orderController.getProviderOrders);
 route.get('/all', orderController.getAllOrders);
-route.post('/processing/:id', orderController.orderStatusProcessing);
+route.post('/accepted/:id', orderController.orderStatusAccepted);
 route.get('/delivered/:id', orderController.orderStatusDelivered);
 route.get('/same-user/:id', orderController.orderSameUser);
 route.get('/ordered', orderController.getOrdered);
