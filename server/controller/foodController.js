@@ -74,7 +74,7 @@ exports.getCompanyFoods = async(req, res) => {
 exports.getCuisineFoods = async(req, res) => {
     const { cuisine } = req.params;
     try {
-        await Food.find({ cuisine: cuisine }).then(async(savedFood) => {
+        await Food.find({ cuisine: cuisine.toLowerCase() }).then(async(savedFood) => {
             if (savedFood) {
                 res.status(200).json(savedFood);
             } else {
@@ -121,9 +121,9 @@ exports.getFood = async(req, res) => {
 // Update single food
 exports.updateFood = async(req, res) => {
     const { id } = req.params;
-    const { name, cuisine, category, price, photo, quantity, description, companyId } = req.body;
+    const { name, cuisine, category, price, photo, quantity, description } = req.body;
 
-    if (!name || !cuisine || !category || !price || !photo || !quantity || !companyId) {
+    if (!name || !cuisine || !category || !price || !photo || !quantity) {
         res.status(400).json({ error: "Please fill all necessary fields" });
     } else {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No food with id: ${id}`);
@@ -134,8 +134,7 @@ exports.updateFood = async(req, res) => {
             price: price,
             photo: photo,
             quantity: quantity,
-            description: description,
-            companyId: companyId
+            description: description
         }, (err, docs) => {
             if (err) {
                 res.status(404).json({ error: "Unexpected error! Try again later." });
