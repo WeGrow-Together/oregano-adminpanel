@@ -65,20 +65,16 @@ exports.find = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    const { email, name, date, mobile, rating, wallet, status } = req.body;
+    const { email, name, mobile } = req.body;
     const id = req.params.id; //we gonna get the id of user from router page api route,using this params object
 
-    if (!name || !email || !date || !mobile || !rating || !wallet || !status) {
+    if (!name || !email || !mobile) {
         res.status(400).send({ message: "Content can not be empty!" });
     } else {
         Userdb.findByIdAndUpdate(id, {
             name: name,
             email: email,
-            date: date,
-            mobile: mobile,
-            rating: rating,
-            wallet: wallet,
-            status: status
+            mobile: mobile
         }, (err, docs) => {
             if (err) {
                 res.status(400).json({ error: err });
