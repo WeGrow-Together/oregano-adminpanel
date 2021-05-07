@@ -10,8 +10,8 @@ var schema = new mongoose.Schema({
         unique: true
     },
     date: {
-        type: String,
-
+        type: Date,
+        default: Date.now()
     },
     mobile: {
         type: String,
@@ -20,14 +20,16 @@ var schema = new mongoose.Schema({
     },
     rating: {
         type: String,
-
+        default: "NILL"
     },
     wallet: {
         type: String,
-
+        default: '0'
     },
-
-    status: String
+    status: {
+        type: String,
+        default: 'inactive'
+    },
 })
 
 const Userdb = mongoose.model('provider', schema);
