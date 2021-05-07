@@ -198,6 +198,26 @@ exports.orderStatusDelivered = async(req, res) => {
     }
 }
 
+// Update order status ready
+exports.orderStatusReady = async(req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        res.status(400).json({ error: "Please provide Provider Id" });
+    } else {
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
+        await Order.findByIdAndUpdate(id, {
+            orderStatus: "ready"
+        }, (err, docs) => {
+            if (err) {
+                res.status(404).json({ error: "Unexpected error! Try again later." });
+            } else {
+                res.status(200).json({ success: "Order is Ready" });
+            }
+        });
+    }
+}
+
 // Get same users orders
 exports.orderSameUser = async(req, res) => {
     const { id } = req.params;

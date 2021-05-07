@@ -39,6 +39,7 @@ route.get('/update_provider', services.update_provider);
 //api for provider
 route.post('/api/providers/create', providerController.create);
 route.get('/api/providers', providerController.find);
+route.get('/api/providers/single/:id', providerController.getOne);
 route.post('/api/providers/update/:id', providerController.update); //this is a url parameter,we created a variable in a url
 route.delete('/api/providers/delete/:id', providerController.delete);
 

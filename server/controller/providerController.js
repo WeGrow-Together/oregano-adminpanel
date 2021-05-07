@@ -3,28 +3,20 @@ var Userdb = require('../model/modelprovider');
 
 exports.create = async(req, res) => {
     //validate request
-    const { name, email, date, mobile, rating, amount, status } = req.body;
+    const { name, email, mobile } = req.body;
 
-    if (!name || !email || !date || !mobile || !rating || !amount || !status) {
+    if (!name || !email || !mobile ) {
         res.status(400).send({ message: "Content can not be empty!" });
     } else {
         //new user
         const provider = new Userdb({
             name: req.body.name,
             email: req.body.email,
-            date: req.body.date,
-            mobile: req.body.mobile,
-            rating: req.body.rating,
-            wallet: req.body.amount,
-            status: req.body.status
+            mobile: req.body.mobile
         })
-
-        //save data in the db
-        // 31 st line res.send(data)
-
         try {
             await provider.save();
-            res.redirect("/provider");
+            res.status(201).json({ success: "Provider Created" });
         } catch (err) {
             res.status(400).json({ error: "Unable to create user" });
         }
@@ -95,6 +87,22 @@ exports.update = (req, res) => {
                 res.redirect("/update_provider?id=" + id);
             }
         })
+    }
+}
+
+// Get single provider
+exports.getOne = async(req, res) => {
+    const { id } = req.params;
+    try {
+        await Order.findById(id).then(async(savedOrder) => {
+            if (savedOrder) {
+                res.status(200).json(savedOrder);
+            } else {
+                res.status(404).json({ error: "Company doesn't have orders" });
+            }
+        })
+    } catch (err) {
+        res.status(500).json({ error: "Unable to get orders" });
     }
 }
 
