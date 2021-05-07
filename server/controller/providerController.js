@@ -94,9 +94,9 @@ exports.update = (req, res) => {
 exports.getOne = async(req, res) => {
     const { id } = req.params;
     try {
-        await Order.findById(id).then(async(savedOrder) => {
-            if (savedOrder) {
-                res.status(200).json(savedOrder);
+        await Userdb.findById(id).then(async(savedProvider) => {
+            if (savedProvider) {
+                res.status(200).json(savedProvider);
             } else {
                 res.status(404).json({ error: "Company doesn't have orders" });
             }
