@@ -9,10 +9,6 @@ var schema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    date: {
-        type: String,
-        required: true
-    },
     mobile: {
         type: String,
         required: true,
@@ -22,15 +18,14 @@ var schema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    wallet: {
-        type: String,
-        default: ""
-    },
     address: {
         type: String,
         default: ""
     },
-    status: String
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
 })
 
 const Userdb = mongoose.model('origano', schema);

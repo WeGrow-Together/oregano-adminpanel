@@ -1,5 +1,4 @@
 var Userdb = require('../model/model');
-const moment = require('moment');
 
 //create and save user
 exports.create = async(req, res) => {
@@ -19,7 +18,6 @@ exports.create = async(req, res) => {
                     const user = new Userdb({
                         name: req.body.name,
                         email: req.body.email,
-                        date: moment().format("D MMMM YYY"),
                         mobile: req.body.mobile
                     })
                     try {
@@ -38,57 +36,53 @@ exports.create = async(req, res) => {
 
 //retrieve and return all users / retrieve and return a single user
 exports.find = (req, res) => {
-    //query parameter to retrieve single user from database
-    if (req.query.id) {
-        const id = req.query.id;
-        Userdb.findById(id)
-            .then(data => {
-                if (!data) {
-                    res.status(404).json({
-                        message: "Not found user with is  id" + id
-                    })
-                } else {
-                    res.json(data)
-                }
-            })
-            .catch(err => {
-                res.status(500).json({ message: "Error while retrieving user with id" + id })
-            })
-    } else {
-        Userdb.find()
-            .then(user => {
-                res.json(user)
-            })
-            .catch(err => {
-                res.status(500).json({
-                    message: err.message || "Error occured while retrieving user information"
-                });
-            })
-    }
+    Userdb.find()
+        .then(user => {
+            res.json(user)
+        })
+        .catch(err => {
+            res.status(500).json({
+                message: err.message || "Error occured while retrieving user information"
+            });
+        })
+}
+
+//retrieve and return all users / retrieve and return a single user
+exports.find = (req, res) => {
+    const id = req.params.id;
+    Userdb.findById(id)
+        .then(data => {
+            if (!data) {
+                res.status(404).json({
+                    message: "Not found user with is  id" + id
+                })
+            } else {
+                res.json(data)
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ message: "Error while retrieving user with id" + id })
+        })
 }
 
 // Update single user
 exports.update = (req, res) => {
-    const { name, email, date, mobile, rating, wallet, status } = req.body;
+    const { name, email, mobile } = req.body;
     const id = req.params.id;
 
-    if (!name || !email || !date || !mobile || !rating || !wallet || !status) {
+    if (!name || !email || !mobile ) {
         res.status(400).json({ message: "Content can not be empty!" });
         return;
     } else {
         Userdb.findByIdAndUpdate(id, {
             name: name,
             email: email,
-            date: date,
-            mobile: mobile,
-            rating: rating,
-            wallet: wallet,
-            status: status
+            mobile: mobile
         }, (err, docs) => {
             if (err) {
                 res.status(400).json({ error: err });
             } else {
-                res.redirect("/update_user");
+                res.status(200).json({ success: "Updated" });
             }
         })
     }

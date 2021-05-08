@@ -27,6 +27,7 @@ route.get("/update_user", services.update_user);
 route.post('/api/users/login', userController.login);
 route.post('/api/users/create', userController.create);
 route.get('/api/users', userController.find);
+route.get('/api/users/single/:id', userController.findOne);
 route.post('/api/users/update/:id', userController.update); //this is a url parameter,we created a variable in a url
 route.post('/api/users/address/:id', userController.updateAddress);
 route.delete('/api/users/delete/:id', userController.delete);
