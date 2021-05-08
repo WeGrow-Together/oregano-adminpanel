@@ -79,8 +79,7 @@ exports.update = (req, res) => {
             if (err) {
                 res.status(400).json({ error: err });
             } else {
-                // res.status(200).json({ success: "Updated" });
-                res.redirect("/update_provider?id=" + id);
+                res.status(200).json({ success: "Updated" });
             }
         })
     }
