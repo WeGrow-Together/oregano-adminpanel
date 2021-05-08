@@ -48,7 +48,7 @@ exports.find = (req, res) => {
 }
 
 //retrieve and return all users / retrieve and return a single user
-exports.find = (req, res) => {
+exports.findOne = (req, res) => {
     const id = req.params.id;
     Userdb.findById(id)
         .then(data => {
