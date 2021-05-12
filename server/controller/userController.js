@@ -34,6 +34,41 @@ exports.create = async(req, res) => {
     }
 }
 
+//create and save user from Admin
+exports.createAdmin = async(req, res) => {
+    //validate request
+    const { name, email, mobile, address } = req.body;
+
+    if (!name || !email || !mobile) {
+        res.status(400).json({ message: "Content can not be empty!" });
+        return;
+    } else {
+        //new user
+        try {
+            Userdb.findOne({ mobile: mobile }).then(async(savedUser) => {
+                if (savedUser) {
+                    res.status(409).json({ error: "User exists" });
+                } else {
+                    const user = new Userdb({
+                        name: req.body.name,
+                        email: req.body.email,
+                        mobile: req.body.mobile,
+                        address: req.body.address
+                    })
+                    try {
+                        await user.save();
+                        res.status(201).json({ success: "Successfully created user" });
+                    } catch (err) {
+                        res.status(500).json({ error: "Unable to create user" });
+                    }
+                }
+            })
+        } catch (err) {
+            res.status(500).json({ error: "Unable to create user" });
+        }
+    }
+}
+
 //retrieve and return all users / retrieve and return a single user
 exports.find = (req, res) => {
     Userdb.find()
@@ -78,6 +113,30 @@ exports.update = (req, res) => {
             name: name,
             email: email,
             mobile: mobile
+        }, (err, docs) => {
+            if (err) {
+                res.status(400).json({ error: err });
+            } else {
+                res.status(200).json({ success: "Updated" });
+            }
+        })
+    }
+}
+
+// Update single user from admin
+exports.updateAdmin = (req, res) => {
+    const { name, email, mobile, address } = req.body;
+    const id = req.params.id;
+
+    if (!name || !email || !mobile ) {
+        res.status(400).json({ message: "Content can not be empty!" });
+        return;
+    } else {
+        Userdb.findByIdAndUpdate(id, {
+            name: name,
+            email: email,
+            mobile: mobile,
+            address: address
         }, (err, docs) => {
             if (err) {
                 res.status(400).json({ error: err });
