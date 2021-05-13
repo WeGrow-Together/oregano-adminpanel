@@ -11,5 +11,6 @@ route.get('/all-companies', companyController.getAllCompanies);
 route.get('/single/:id', companyController.getCompany);
 route.delete('/delete/:id', companyController.deleteCompany);
 route.put('/update/:id', companyController.updateCompany);
+route.put('/change-password/:id', companyController.changePassword);
 
 module.exports = route;

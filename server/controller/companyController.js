@@ -255,3 +255,43 @@ exports.deleteCompany = async(req, res) => {
         res.status(500).json({ error: "Unable to get companies" });
     }
 }
+
+// Change  password
+exports.changePassword = async(req, res) => {
+    try {
+        const { id } = req.params;
+        const { oldPassword, newPassword } = req.body;
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No company with id: ${id}`);
+        await Admin.findById(id).then((savedAdmin) => {
+            if(savedAdmin)
+            {
+                bcrypt
+                .compare(oldPassword, savedAdmin.password)
+                .then((doMatch) => {
+                    if(doMatch)
+                    {
+                        bcrypt.hash(newPassword, 12).then((hashedPassword) => {
+                            Admin.findByIdAndUpdate(id, {password: hashedPassword}, (err,docs) => {
+                                if(err)
+                                {
+                                    res.status(400).json({ error: "Unable to update password" });
+                                }else{
+                                    res.status(200).json({ success: "Success" });
+                                }
+                            })
+                        });
+                    }else{
+                        res.status(422).json({ error: "Invalid Password" });
+                    }
+                })
+                .catch((err) => {
+                    res.status(404).json({ error: "Sorry! Connection problem" });
+                });
+            }else{
+                res.status(404).json({ error: "User not found" });
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ error: "Unable to get companies" });
+    }
+}
