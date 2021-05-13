@@ -18,7 +18,7 @@ exports.createFood = async(req, res) => {
                     try {
                         const food = new Food({
                             name: name,
-                            cuisine: cuisine.toLowerCase(),
+                            cuisine: cuisine,
                             category: category,
                             price: price,
                             photo: photo,
@@ -74,7 +74,7 @@ exports.getCompanyFoods = async(req, res) => {
 exports.getCuisineFoods = async(req, res) => {
     const { cuisine } = req.params;
     try {
-        await Food.find({ cuisine: cuisine.toLowerCase() }).then(async(savedFood) => {
+        await Food.find({ cuisine: cuisine }).then(async(savedFood) => {
             if (savedFood) {
                 res.status(200).json(savedFood);
             } else {
@@ -129,7 +129,7 @@ exports.updateFood = async(req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No food with id: ${id}`);
         await Food.findByIdAndUpdate(id, {
             name: name,
-            cuisine: cuisine.toLowerCase(),
+            cuisine: cuisine,
             category: category,
             price: price,
             photo: photo,
