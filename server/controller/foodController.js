@@ -156,3 +156,32 @@ exports.deleteFood = async(req, res) => {
         res.status(500).json({ error: "Unable to delete food" });
     }
 }
+
+// Update single food stock status
+exports.stockStatus = async(req, res) => {
+    try {
+        const { id } = req.params;
+        let inStock = true;
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No food with id: ${id}`);
+        await Food.findById(id).then(async (food) => {
+            if(food){
+                if(food.inStock === true){
+                    inStock = false;
+                }
+                await Food.findByIdAndUpdate(id, {
+                    inStock:inStock
+                }, (err, docs) => {
+                    if (err) {
+                        res.status(400).json({ error: "Unexpected error! Try again later." });
+                    } else {
+                        res.status(200).json({ success: "Successfully updated food availablity" });
+                    }
+                });
+            }else{
+                res.status(404).json({ error: "Food not present" });
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ error: "Unable to delete food" });
+    }
+}

@@ -295,3 +295,32 @@ exports.changePassword = async(req, res) => {
         res.status(500).json({ error: "Unable to get companies" });
     }
 }
+
+// Update single resturant open status
+exports.openStatus = async(req, res) => {
+    try {
+        const { id } = req.params;
+        let isOpen = true;
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No resturant with id: ${id}`);
+        await Admin.findById(id).then(async (user) => {
+            if(user){
+                if(user.isOpen === true){
+                    isOpen = false;
+                }
+                await Admin.findByIdAndUpdate(id, {
+                    isOpen:isOpen
+                }, (err, docs) => {
+                    if (err) {
+                        res.status(400).json({ error: "Unexpected error! Try again later." });
+                    } else {
+                        res.status(200).json({ success: "Successfully updated resturant status" });
+                    }
+                });
+            }else{
+                res.status(404).json({ error: "Resturant not present" });
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ error: "Unable to update resturant" });
+    }
+}

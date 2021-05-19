@@ -20,33 +20,38 @@ exports.createOrder = (req, res) => {
                     Company.findById(companyId).then(company =>{
                         if(company)
                         {
-                            User.findById(cart.user).then(user => {
-                                if(user)
-                                {
-                                    const order = new Order({
-                                        userId: cart.user,
-                                        userName: user.name,
-                                        userAddress: userAddress,
-                                        companyId: companyId,
-                                        companyName: company.companyName,
-                                        companyAddress: company.businessAddress,
-                                        totalAmount: totalAmount,
-                                        paymentType: paymentType,
-                                        offers: offers,
-                                        orderDetails: cart.cartItems,
-                                        orderTime: moment().format("hh:mm A"),
-                                        orderDate: moment().format("D MMMM YYYY"),
-                                        orderId: orderId,
-                                        paymentId: paymentId
-                                    });
-                                    order.save().then(newOrder => {
-                                        Cart.findByIdAndRemove(cartId);
-                                        res.status(201).json(newOrder);
-                                    }).catch(err => res.status(400).json({ success: "Order placed successfully" }));
-                                }else{
-                                    res.status(400).json({ error: "Invalid Company" });
-                                }
-                            }).catch(err => res.status(400).json({ error: err.message}));
+                            if(company.isOpen)
+                            {
+                                User.findById(cart.user).then(user => {
+                                    if(user)
+                                    {
+                                        const order = new Order({
+                                            userId: cart.user,
+                                            userName: user.name,
+                                            userAddress: userAddress,
+                                            companyId: companyId,
+                                            companyName: company.companyName,
+                                            companyAddress: company.businessAddress,
+                                            totalAmount: totalAmount,
+                                            paymentType: paymentType,
+                                            offers: offers,
+                                            orderDetails: cart.cartItems,
+                                            orderTime: moment().format("hh:mm A"),
+                                            orderDate: moment().format("D MMMM YYYY"),
+                                            orderId: orderId,
+                                            paymentId: paymentId
+                                        });
+                                        order.save().then(newOrder => {
+                                            Cart.findByIdAndRemove(cartId);
+                                            res.status(201).json(newOrder);
+                                        }).catch(err => res.status(400).json({ success: "Order placed successfully" }));
+                                    }else{
+                                        res.status(400).json({ error: "Invalid Company" });
+                                    }
+                                }).catch(err => res.status(400).json({ error: err.message}));
+                            }else{
+                                res.status(400).json({ error: "Resturant is closed now. Try later." });
+                            }
                         }else{
                             res.status(400).json({ error: "Invalid Company" });
                         }
