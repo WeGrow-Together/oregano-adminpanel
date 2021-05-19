@@ -31,6 +31,10 @@ var foodSchema = new mongoose.Schema({
     companyId: {
         type: String,
         required: true
+    },
+    inStock: {
+        type: Boolean,
+        default: true
     }
 })
 
