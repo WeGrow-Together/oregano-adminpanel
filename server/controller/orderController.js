@@ -162,12 +162,12 @@ exports.orderStatusAccepted = async(req, res) => {
     }
 }
 
-// Update order status Food collected
+// Update order status collected
 exports.orderStatusCollected = async(req, res) => {
     const { id } = req.params;
 
     if (!id) {
-        res.status(400).json({ error: "Please provide Provider Id" });
+        res.status(400).json({ error: "Please provide Order Id" });
     } else {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
         await Order.findByIdAndUpdate(id, {
@@ -176,7 +176,67 @@ exports.orderStatusCollected = async(req, res) => {
             if (err) {
                 res.status(404).json({ error: "Unexpected error! Try again later." });
             } else {
-                res.status(200).json({ success: "Delivered Order" });
+                res.status(200).json({ success: "Collected Order" });
+            }
+        });
+    }
+}
+
+// Update order status accepted by company
+exports.orderStatusAccept = async(req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        res.status(400).json({ error: "Please provide Order Id" });
+    } else {
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
+        await Order.findByIdAndUpdate(id, {
+            orderStatus: "company-accept"
+        }, (err, docs) => {
+            if (err) {
+                res.status(404).json({ error: "Unexpected error! Try again later." });
+            } else {
+                res.status(200).json({ success: "Order Accepted by Resturant" });
+            }
+        });
+    }
+}
+
+// Update order status Provider arrived at Resturant
+exports.orderStatusArrivedResturant = async(req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        res.status(400).json({ error: "Please provide Order Id" });
+    } else {
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
+        await Order.findByIdAndUpdate(id, {
+            orderStatus: "arrived-resturant"
+        }, (err, docs) => {
+            if (err) {
+                res.status(404).json({ error: "Unexpected error! Try again later." });
+            } else {
+                res.status(200).json({ success: "Provider addived at Resturant" });
+            }
+        });
+    }
+}
+
+// Update order status Provider arrived at Location of User
+exports.orderStatusArrivedUser = async(req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        res.status(400).json({ error: "Please provide Order Id" });
+    } else {
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
+        await Order.findByIdAndUpdate(id, {
+            orderStatus: "arrived-location"
+        }, (err, docs) => {
+            if (err) {
+                res.status(404).json({ error: "Unexpected error! Try again later." });
+            } else {
+                res.status(200).json({ success: "Provider arrived at user" });
             }
         });
     }
@@ -187,7 +247,7 @@ exports.orderStatusDelivered = async(req, res) => {
     const { id } = req.params;
 
     if (!id) {
-        res.status(400).json({ error: "Please provide Provider Id" });
+        res.status(400).json({ error: "Please provide Order Id" });
     } else {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
         await Order.findByIdAndUpdate(id, {
@@ -208,7 +268,7 @@ exports.orderStatusReady = async(req, res) => {
     const { id } = req.params;
 
     if (!id) {
-        res.status(400).json({ error: "Please provide Provider Id" });
+        res.status(400).json({ error: "Please provide Order Id" });
     } else {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
         await Order.findByIdAndUpdate(id, {
