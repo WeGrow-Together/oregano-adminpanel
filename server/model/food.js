@@ -16,6 +16,10 @@ var foodSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    originalPrice: {
+        type: Number,
+        required: true
+    },
     photo: {
         type: String,
         required: true
