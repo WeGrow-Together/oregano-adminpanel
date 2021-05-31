@@ -3,6 +3,7 @@ var Order = require('../model/order');
 var Cart = require('../model/cart');
 var Company = require('../model/admin');
 var User = require('../model/model');
+const Provider = require('../model/modelprovider');
 const moment = require('moment');
 
 //create order
@@ -250,14 +251,34 @@ exports.orderStatusDelivered = async(req, res) => {
         res.status(400).json({ error: "Please provide Order Id" });
     } else {
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
-        await Order.findByIdAndUpdate(id, {
-            deliveryTime: moment().format("hh:mm A"),
-            orderStatus: "delivered"
-        }, (err, docs) => {
-            if (err) {
-                res.status(404).json({ error: "Unexpected error! Try again later." });
-            } else {
-                res.status(200).json({ success: "Delivered Order" });
+        await Order.findById(id).then(async (order) => {
+            if(order){
+                await Order.findByIdAndUpdate(id, {
+                    deliveryTime: moment().format("hh:mm A"),
+                    orderStatus: "delivered"
+                },async (err, docs) => {
+                    if (err) {
+                        res.status(404).json({ error: "Unexpected error! Try again." });
+                    } else {
+                        await Provider.findById(order.providerId).then(async (provider) => {
+                            if(provider){
+                                await Provider.findByIdAndUpdate(order.providerId, {
+                                    wallet: parseInt(provider.wallet) + parseInt(process.env.PROVIDER_COMMISSION)
+                                }, (error, documents) => {
+                                    if(error){
+                                        res.status(404).json({ error: "Unexpected error! Try again." });
+                                    }else{
+                                        res.status(200).json({ success: "Delivered Order" });
+                                    }
+                                });
+                            }else{
+
+                            }
+                        });
+                    }
+                });
+            }else{
+                res.status(404).json({ error: "Order Not Found" });
             }
         });
     }
