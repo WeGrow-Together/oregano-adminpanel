@@ -23,12 +23,12 @@ var schema = new mongoose.Schema({
         default: "NILL"
     },
     wallet: {
-        type: String,
-        default: '0'
+        type: Number,
+        default: 0
     },
     totalEarning: {
-        type: String,
-        default: '0'
+        type: Number,
+        default: 0
     },
     totalDelivery: {
         type: Number,

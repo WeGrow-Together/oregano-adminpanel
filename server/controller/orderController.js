@@ -264,8 +264,8 @@ exports.orderStatusDelivered = async(req, res) => {
                             if(provider){
                                 await Provider.findByIdAndUpdate(order.providerId, {
                                     totalDelivery: provider.totalDelivery + 1,
-                                    totalEarning: parseInt(provider.totalEarning) + parseInt(process.env.PROVIDER_COMMISSION),
-                                    wallet: parseInt(provider.wallet) + parseInt(process.env.PROVIDER_COMMISSION)
+                                    totalEarning: provider.totalEarning + parseInt(process.env.PROVIDER_COMMISSION),
+                                    wallet: provider.wallet + parseInt(process.env.PROVIDER_COMMISSION)
                                 }, (error, documents) => {
                                     if(error){
                                         res.status(404).json({ error: "Unexpected error! Try again." });
