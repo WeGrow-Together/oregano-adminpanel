@@ -117,7 +117,7 @@ exports.paidAmount = (req, res) => {
         res.status(400).send({ message: "Provider id can not be empty!" });
     } else {
         Userdb.findByIdAndUpdate(id, {
-            wallet: '0'
+            wallet: 0
         }, (err, docs) => {
             if (err) {
                 res.status(400).json({ error: err });
