@@ -263,6 +263,8 @@ exports.orderStatusDelivered = async(req, res) => {
                         await Provider.findById(order.providerId).then(async (provider) => {
                             if(provider){
                                 await Provider.findByIdAndUpdate(order.providerId, {
+                                    totalDelivery: provider.totalDelivery + 1,
+                                    totalEarning: parseInt(provider.totalEarning) + parseInt(process.env.PROVIDER_COMMISSION),
                                     wallet: parseInt(provider.wallet) + parseInt(process.env.PROVIDER_COMMISSION)
                                 }, (error, documents) => {
                                     if(error){
