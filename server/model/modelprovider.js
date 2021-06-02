@@ -34,7 +34,7 @@ var schema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    isApprived: {
+    isApproved: {
         type: Boolean,
         default: false
     }

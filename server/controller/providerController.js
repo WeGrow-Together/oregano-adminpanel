@@ -127,3 +127,27 @@ exports.paidAmount = (req, res) => {
         })
     }
 }
+
+exports.updateStatus = (req, res) => {
+    const id = req.params.id;
+
+    if (!id) {
+        res.status(400).send({ message: "Provider id can not be empty!" });
+    } else {
+        Userdb.findById(id).then(provider => {
+            var isApproved = true;
+            if(provider.isApproved){
+                isApproved = false;
+            }
+            Userdb.findByIdAndUpdate(id, {
+                isApproved: isApproved
+            }, (err, docs) => {
+                if (err) {
+                    res.status(400).json({ error: err });
+                } else {
+                    res.status(200).json({ success: "Provider status updated" });
+                }
+            })
+        });
+    }
+}
