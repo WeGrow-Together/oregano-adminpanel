@@ -108,3 +108,22 @@ exports.delete = async(req, res) => {
 
     res.status(200).json({ success: "User deleted successfully." });
 }
+
+
+exports.paidAmount = (req, res) => {
+    const id = req.params.id;
+
+    if (!id) {
+        res.status(400).send({ message: "Provider id can not be empty!" });
+    } else {
+        Userdb.findByIdAndUpdate(id, {
+            wallet: '0'
+        }, (err, docs) => {
+            if (err) {
+                res.status(400).json({ error: err });
+            } else {
+                res.status(200).json({ success: "Amount Paid" });
+            }
+        })
+    }
+}

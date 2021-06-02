@@ -26,10 +26,18 @@ var schema = new mongoose.Schema({
         type: String,
         default: '0'
     },
-    status: {
+    totalEarning: {
         type: String,
-        default: 'inactive'
+        default: '0'
     },
+    totalDelivery: {
+        type: Number,
+        default: 0
+    },
+    isApprived: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const Userdb = mongoose.model('provider', schema);
