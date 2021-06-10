@@ -203,6 +203,26 @@ exports.orderStatusAccept = async(req, res) => {
     }
 }
 
+// Update order status cancelled by company
+exports.orderStatusCancelled = async(req, res) => {
+    const { id } = req.params;
+
+    if (!id) {
+        res.status(400).json({ error: "Please provide Order Id" });
+    } else {
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({ error: `No order with id: ${id}` });
+        await Order.findByIdAndUpdate(id, {
+            orderStatus: "cancelled"
+        }, (err, docs) => {
+            if (err) {
+                res.status(404).json({ error: "Unexpected error! Try again later." });
+            } else {
+                res.status(200).json({ success: "Order Cancelled" });
+            }
+        });
+    }
+}
+
 // Update order status Provider arrived at Resturant
 exports.orderStatusArrivedResturant = async(req, res) => {
     const { id } = req.params;
