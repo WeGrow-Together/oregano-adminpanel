@@ -11,6 +11,7 @@ route.get('/provider/:id', orderController.getProviderOrders);
 route.get('/all', orderController.getAllOrders);
 
 route.get('/resturant-accept/:id', orderController.orderStatusAccept);
+route.get('/cancelled/:id', orderController.orderStatusCancelled);
 route.get('/ready/:id', orderController.orderStatusReady);
 route.post('/accepted/:id', orderController.orderStatusAccepted);
 route.get('/arrived-resturant/:id', orderController.orderStatusArrivedResturant);
